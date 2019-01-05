@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
 import com.islam.newsfeeder.POJO.Article;
-import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
@@ -35,9 +34,9 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
 
     @Override
     protected void setUpObservers() {
-        mViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<Resource<Map<Provider, List<Article>>>>() {
+        mViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<Resource<Map<String, List<Article>>>>() {
             @Override
-            public void onChanged(@Nullable Resource<Map<Provider, List<Article>>> listResource) {
+            public void onChanged(@Nullable Resource<Map<String, List<Article>>> listResource) {
                 if (listResource.getData() != null)
                     mAdapter.setData(listResource.getData());
             }

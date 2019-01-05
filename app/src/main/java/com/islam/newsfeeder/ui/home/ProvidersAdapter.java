@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.islam.newsfeeder.POJO.Article;
-import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.R;
 
 import java.util.ArrayList;
@@ -18,8 +17,8 @@ import java.util.Map;
 
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.ViewHolder> {
 
-    private List<Provider> mProviderList;
-    private Map<Provider, List<Article>> mProviderArticlesMap;
+    private List<String> mProviderList;
+    private Map<String, List<Article>> mProviderArticlesMap;
     private RecyclerView.RecycledViewPool viewPool;
 
 
@@ -39,8 +38,8 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Provider provider = mProviderList.get(position);
-        holder.nameTextView.setText(provider.getName());
+        String provider = mProviderList.get(position);
+        holder.nameTextView.setText(provider);
         holder.setRecyclerViewData(mProviderArticlesMap.get(provider));
     }
 
@@ -51,7 +50,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.View
         return mProviderList.size();
     }
 
-    public void setData(Map<Provider, List<Article>> data) {
+    public void setData(Map<String, List<Article>> data) {
         this.mProviderArticlesMap = data;
         mProviderList.clear();
         this.mProviderList.addAll(data.keySet());
