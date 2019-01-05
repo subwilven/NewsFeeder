@@ -2,9 +2,12 @@ package com.islam.newsfeeder.ui.article_details;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,7 +24,7 @@ import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 import static com.islam.newsfeeder.util.Constants.BUNDLE_ARTICLE;
 
-public class ArticleDetailsFragment extends Fragment implements View.OnKeyListener {
+public class ArticleDetailsFragment extends Fragment implements View.OnKeyListener, View.OnClickListener {
 
     ArticlesDetailsViewModel mViewModel;
     private TextView contentTextView;
@@ -58,6 +61,7 @@ public class ArticleDetailsFragment extends Fragment implements View.OnKeyListen
         providerNameTextView = view.findViewById(R.id.article_details_provider_name);
         publishedAtTextView = view.findViewById(R.id.article_details_published_at);
         imageView = view.findViewById(R.id.article_details_image);
+        imageView.setOnClickListener(this);
 
         view.setFocusableInTouchMode(true);
         view.requestFocus();
@@ -81,6 +85,25 @@ public class ArticleDetailsFragment extends Fragment implements View.OnKeyListen
                         null);
             }
         });
+
+        mViewModel.getShouldOpenCustomTab().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean b) {
+                if (b)
+                    openCustomTab();
+            }
+        });
+    }
+
+    private void openCustomTab() {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
+        builder.setToolbarColor(Color.BLUE);
+        builder.setStartAnimations(getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
+        builder.setExitAnimations(getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
+
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(getContext(), Uri.parse(mViewModel.getArticleData().getValue().getArticleUrl()));
     }
 
 
@@ -95,5 +118,10 @@ public class ArticleDetailsFragment extends Fragment implements View.OnKeyListen
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+        mViewModel.setShouldOpenCustomTab(true);
     }
 }

@@ -2,7 +2,9 @@ package com.islam.newsfeeder.POJO;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Provider {
+import java.io.Serializable;
+
+public class Provider implements Serializable {
 
     @SerializedName("id")
     private String sourceId;
