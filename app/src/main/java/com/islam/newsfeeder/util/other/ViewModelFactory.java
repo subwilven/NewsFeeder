@@ -8,6 +8,7 @@ import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.ui.article_details.ArticlesDetailsViewModel;
 import com.islam.newsfeeder.ui.home.HomeViewModel;
+import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterViewModel;
 import com.islam.newsfeeder.ui.saved_article.SavedArticleViewModel;
 
 /**
@@ -47,6 +48,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         } else if (modelClass.isAssignableFrom(ArticlesDetailsViewModel.class)) {
             //noinspection unchecked
             return (T) new ArticlesDetailsViewModel();
+        } else if (modelClass.isAssignableFrom(ProvidersFilterViewModel.class)) {
+            //noinspection unchecked
+            return (T) new ProvidersFilterViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

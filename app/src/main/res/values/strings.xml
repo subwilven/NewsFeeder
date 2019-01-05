@@ -1,7 +1,12 @@
 <resources>
-    <string name="app_name">NewsFeeder</string>
+    <string name="app_name">News Feeder</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="save">Save</string>
+    <string name="filter">Filter</string>
+    <string name="sources">Sources</string>
+    <string name="add_source">Add resource</string>
+    <string name="should_be_at_least_one_checked_provider">Should be at least one checked provider</string>
 </resources>

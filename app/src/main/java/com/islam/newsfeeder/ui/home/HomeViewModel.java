@@ -9,6 +9,7 @@ import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.util.other.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ public class HomeViewModel extends ViewModel {
     private LiveData<Resource<List<Article>>> mArticles;
     // here is the articles grouped accroding to the providers
     private LiveData<Resource<Map<String, List<Article>>>> mProviderWithArticles;
+    // useed to indicate the the data should be updated ( in case there are changes in providers or the user force reload)
+    private SingleLiveEvent<Boolean> shouldReload = new SingleLiveEvent<>();
 
     public HomeViewModel(ArticleRepository mArticleRepository) {
         mRepository = mArticleRepository;
@@ -29,8 +32,19 @@ public class HomeViewModel extends ViewModel {
     }
 
     private void loadArticles() {
-        if (mArticles == null)
-            mArticles = mRepository.getArticles();
+        shouldReload.setValue(true);
+        if (mArticles != null) {
+            return;
+        }
+        mArticles = mRepository.getArticles();
+        mArticles = Transformations.switchMap(shouldReload, new Function<Boolean, LiveData<Resource<List<Article>>>>() {
+            @Override
+            public LiveData<Resource<List<Article>>> apply(Boolean input) {
+                if (input)
+                    return mRepository.getArticles();
+                return mArticles;
+            }
+        });
         mProviderWithArticles = Transformations.map(mArticles, new Function<Resource<List<Article>>, Resource<Map<String, List<Article>>>>() {
             @Override
             public Resource<Map<String, List<Article>>> apply(Resource<List<Article>> input) {
@@ -48,7 +62,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void reload() {
-        mArticles = mRepository.getArticles();
+        shouldReload.setValue(true);
     }
 
     private Resource<Map<String, List<Article>>> groupArticlesByProvider(Resource<List<Article>> input) {

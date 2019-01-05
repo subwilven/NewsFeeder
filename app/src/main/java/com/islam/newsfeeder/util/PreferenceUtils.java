@@ -19,7 +19,7 @@ public final class PreferenceUtils {
     private PreferenceUtils() {
     }
 
-    private static SharedPreferences getProviderSharedPreference(Context context) {
+    public static SharedPreferences getProviderSharedPreference(Context context) {
         return context.getSharedPreferences(SHARE_PROVIDERS_file, Context.MODE_PRIVATE);
     }
 
