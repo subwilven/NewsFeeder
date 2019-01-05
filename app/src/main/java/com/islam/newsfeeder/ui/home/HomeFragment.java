@@ -50,8 +50,10 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
         mViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<Resource<Map<String, List<Article>>>>() {
             @Override
             public void onChanged(@Nullable Resource<Map<String, List<Article>>> listResource) {
-                if (listResource.getData() != null)
+                if (listResource.getData() != null) {
                     mAdapter.setData(listResource.getData());
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
