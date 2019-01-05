@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.util.CallBacks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,16 @@ import java.util.Map;
 
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.ViewHolder> {
 
-    private List<String> mProviderList;
+    private final List<String> mProviderList;
     private Map<String, List<Article>> mProviderArticlesMap;
-    private RecyclerView.RecycledViewPool viewPool;
+    private final RecyclerView.RecycledViewPool viewPool;
+    private final CallBacks.AdapterCallBack<Article> mCallBack;
 
 
-    public ProvidersAdapter() {
+    public ProvidersAdapter(CallBacks.AdapterCallBack<Article> callBack) {
         viewPool = new RecyclerView.RecycledViewPool();
         mProviderList = new ArrayList<>();
+        mCallBack = callBack;
     }
 
     @Override
@@ -45,8 +48,6 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.View
 
     @Override
     public int getItemCount() {
-        if (mProviderList == null)
-            return 0;
         return mProviderList.size();
     }
 
@@ -71,7 +72,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.View
 
             recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setRecycledViewPool(viewPool);
-            articlesAdapter = new ArticlesAdapter();
+            articlesAdapter = new ArticlesAdapter(mCallBack);
             recyclerView.setAdapter(articlesAdapter);
         }
 

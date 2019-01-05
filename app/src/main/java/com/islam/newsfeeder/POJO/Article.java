@@ -9,9 +9,11 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 
 @Entity(tableName = "article")
-public class Article {
+public class Article implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull

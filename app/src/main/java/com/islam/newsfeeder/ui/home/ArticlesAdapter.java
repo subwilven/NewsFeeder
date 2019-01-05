@@ -10,17 +10,24 @@ import android.widget.TextView;
 
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.util.ActivityUtils;
+import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.other.RoundedCornersTransformation;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHolder> {
 
     //this used to set radius to the image
-    RoundedCornersTransformation cornersTransformation =
+    private final RoundedCornersTransformation cornersTransformation =
             new RoundedCornersTransformation(7, 0);
     private List<Article> mArticleList;
+    private final CallBacks.AdapterCallBack<Article> mCallBack;
+
+
+    public ArticlesAdapter(CallBacks.AdapterCallBack<Article> callBack) {
+        mCallBack = callBack;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,7 +41,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Article article = mArticleList.get(position);
-        holder.loadImage(article.getImageUrl());
+        ActivityUtils.loadImage(holder.moviePosterImageView,
+                article.getImageUrl(),
+                cornersTransformation);
         holder.titleTextView.setText(article.getTitle());
     }
 
@@ -62,16 +71,9 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ViewHo
             itemView.setOnClickListener(this);
         }
 
-        void loadImage(String posterPath) {
-            if (posterPath != null && !posterPath.isEmpty())
-                Picasso.get().load(posterPath)
-                        .transform(cornersTransformation)
-                        .into(moviePosterImageView);
-        }
-
         @Override
         public void onClick(View view) {
-
+            mCallBack.onItemClicked(mArticleList.get(getAdapterPosition()));
         }
     }
 }

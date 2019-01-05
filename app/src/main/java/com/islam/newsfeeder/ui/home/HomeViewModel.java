@@ -44,8 +44,6 @@ public class HomeViewModel extends ViewModel {
     }
 
     public LiveData<Resource<Map<String, List<Article>>>> getArticles() {
-
-
         return mProviderWithArticles;
     }
 

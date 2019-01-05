@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.ui.article_details.ArticlesDetailsViewModel;
 import com.islam.newsfeeder.ui.home.HomeViewModel;
 import com.islam.newsfeeder.ui.saved_article.SavedArticleViewModel;
 
@@ -43,6 +44,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         } else if (modelClass.isAssignableFrom(HomeViewModel.class)) {
             //noinspection unchecked
             return (T) new HomeViewModel(mArticleRepository);
+        } else if (modelClass.isAssignableFrom(ArticlesDetailsViewModel.class)) {
+            //noinspection unchecked
+            return (T) new ArticlesDetailsViewModel();
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

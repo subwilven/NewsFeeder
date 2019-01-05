@@ -11,21 +11,24 @@ import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
+import com.islam.newsfeeder.ui.article_details.ArticleDetailsFragment;
+import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout.OnRefreshListener, CallBacks.AdapterCallBack<Article> {
 
+    public final static String TAG = "HomeFragment";
     HomeViewModel mViewModel;
     ProvidersAdapter mAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(HomeViewModel.class);
-        mAdapter = new ProvidersAdapter();
+        mViewModel = ViewModelProviders.of(getActivity(), ViewModelFactory.getInstance()).get(HomeViewModel.class);
+        mAdapter = new ProvidersAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
         mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
@@ -51,5 +54,14 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
     @Override
     public void onRefresh() {
         mViewModel.reload();
+    }
+
+    @Override
+    public void onItemClicked(Article item) {
+        getActivity().getSupportFragmentManager().beginTransaction().hide(this).commit();
+
+        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                .add(R.id.container, ArticleDetailsFragment.getInstance(item)).commit();
+
     }
 }

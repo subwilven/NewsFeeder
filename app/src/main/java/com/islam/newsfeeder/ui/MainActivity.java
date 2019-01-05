@@ -21,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    replaceFragment(HomeFragment.class);
+                    replaceFragment(HomeFragment.class, HomeFragment.TAG);
                     return true;
                 case R.id.navigation_dashboard:
-                    replaceFragment(SavedArticleFragment.class);
+                    replaceFragment(SavedArticleFragment.class, null);
                     return true;
             }
             return false;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    public void replaceFragment(Class<?> fragmentClass) {
+    public void replaceFragment(Class<?> fragmentClass, String tag) {
 
         //if it the same running fragment do nothing
         if (FRAGMENT_CURRENT.equals(fragmentClass.getName()))
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //replace the ragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).commit();
     }
 
 

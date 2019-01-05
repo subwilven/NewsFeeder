@@ -7,6 +7,8 @@ public final class Constants {
     public static final String SHARE_PROVIDERS_file = "providers";
     public static final String KEY_PROVIDERS = "providers";
 
+    public static final String BUNDLE_ARTICLE = "article";
+
     public final static String NETWORK_STATUS_OK = "ok";
     public final static String NETWORK_STATUS_ERROR = "error";
 
