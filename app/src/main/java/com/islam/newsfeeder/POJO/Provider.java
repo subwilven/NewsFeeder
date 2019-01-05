@@ -9,6 +9,14 @@ public class Provider {
     @SerializedName("name")
     private String name;
 
+    private boolean isChecked;
+
+    public Provider(String sourceId, String name, boolean isChecked) {
+        this.sourceId = sourceId;
+        this.name = name;
+        this.isChecked = isChecked;
+    }
+
     public Provider() {
     }
 
@@ -26,5 +34,13 @@ public class Provider {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

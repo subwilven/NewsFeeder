@@ -3,15 +3,19 @@ package com.islam.newsfeeder.data.articles;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.POJO.ApiResponse;
 import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.data.server_connection_helper.NetworkBoundResource;
 import com.islam.newsfeeder.util.Constants;
+import com.islam.newsfeeder.util.PreferenceUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -73,7 +77,13 @@ public class ArticleRepository {
                         .build();
 
                 ArticleApi articleApi = retrofit.create(ArticleApi.class);
-                Call<ApiResponse<List<Article>>> connection = articleApi.getArticles(BuildConfig.NEWS_API_KEY);
+                List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());
+                String sources = convertProvidersToString(providers);
+
+                Call<ApiResponse<List<Article>>> connection = articleApi.getArticles(
+                        "top-headlines",
+                        sources,
+                        BuildConfig.NEWS_API_KEY);
 
                 connection.enqueue(new Callback<ApiResponse<List<Article>>>() {
                     @Override
@@ -89,6 +99,20 @@ public class ArticleRepository {
                 return data;
             }
         }.getAsLiveData();
+    }
+
+    private String convertProvidersToString(List<Provider> providers) {
+
+        List<String> resources = new ArrayList<>();
+        for (int i = 0; i < providers.size(); i++) {
+            Provider provider = providers.get(i);
+            if (provider.isChecked()) {
+                resources.add(provider.getSourceId());
+            }
+        }
+
+        return TextUtils.join(",", resources);
+
     }
 
 }

@@ -12,9 +12,10 @@ import retrofit2.http.Query;
 
 public interface ArticleApi {
 
-    @GET("top-headlines?country=us&category=business")
-    Call<ApiResponse<List<Article>>> getArticles(@Query("apiKey") String key);
+    @GET("{path}")
+    Call<ApiResponse<List<Article>>> getArticles(
+            @Path(value = "path") String path,
+            @Query(value = "sources", encoded = true) String sources,
+            @Query("apiKey") String key);
 
-    Call<ApiResponse> get(@Path(value = "path", encoded = true) String path2,
-                          @Query("apiKey") String key);
 }

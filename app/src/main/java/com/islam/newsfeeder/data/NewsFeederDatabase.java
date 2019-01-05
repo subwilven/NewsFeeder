@@ -8,7 +8,7 @@ import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.data.articles.ArticleDao;
 
-@Database(entities = {Article.class}, version = 2)
+@Database(entities = {Article.class}, version = 3)
 public abstract class NewsFeederDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "news_feeder";
