@@ -7,11 +7,14 @@ import android.text.TextUtils;
 
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
-import com.islam.newsfeeder.POJO.ApiResponse;
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.POJO.Resource;
+import com.islam.newsfeeder.POJO.network.ApiResponse;
+import com.islam.newsfeeder.POJO.network.ArticleResponse;
+import com.islam.newsfeeder.POJO.network.ProvidersResponse;
 import com.islam.newsfeeder.data.server_connection_helper.NetworkBoundResource;
+import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
@@ -80,19 +83,19 @@ public class ArticleRepository {
                 List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());
                 String sources = convertProvidersToString(providers);
 
-                Call<ApiResponse<List<Article>>> connection = articleApi.getArticles(
+                Call<ArticleResponse> connection = articleApi.getArticles(
                         "top-headlines",
                         sources,
                         BuildConfig.NEWS_API_KEY);
 
-                connection.enqueue(new Callback<ApiResponse<List<Article>>>() {
+                connection.enqueue(new Callback<ArticleResponse>() {
                     @Override
-                    public void onResponse(Call<ApiResponse<List<Article>>> call, Response<ApiResponse<List<Article>>> response) {
+                    public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
                         data.setValue(response.body());
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse<List<Article>>> call, Throwable t) {
+                    public void onFailure(Call<ArticleResponse> call, Throwable t) {
 
                     }
                 });
@@ -102,7 +105,6 @@ public class ArticleRepository {
     }
 
     private String convertProvidersToString(List<Provider> providers) {
-
         List<String> resources = new ArrayList<>();
         for (int i = 0; i < providers.size(); i++) {
             Provider provider = providers.get(i);
@@ -110,9 +112,41 @@ public class ArticleRepository {
                 resources.add(provider.getSourceId());
             }
         }
-
         return TextUtils.join(",", resources);
-
     }
 
+    public void getProviders(CallBacks.NetworkCallBack<List<Provider>> callBack) {
+
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addInterceptor(logging);
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        ArticleApi articleApi = retrofit.create(ArticleApi.class);
+        Call<ProvidersResponse> connection = articleApi.getProviders(
+                "sources",
+                BuildConfig.NEWS_API_KEY);
+
+        connection.enqueue(new Callback<ProvidersResponse>() {
+            @Override
+            public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
+                callBack.onSuccess(response.body().getData());
+            }
+
+            @Override
+            public void onFailure(Call<ProvidersResponse> call, Throwable t) {
+
+            }
+
+        });
+    }
 }
+
+
+

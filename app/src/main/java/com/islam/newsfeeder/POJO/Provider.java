@@ -3,6 +3,7 @@ package com.islam.newsfeeder.POJO;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Provider implements Serializable {
 
@@ -44,5 +45,23 @@ public class Provider implements Serializable {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Provider provider = (Provider) o;
+        return Objects.equals(sourceId, provider.sourceId);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 }

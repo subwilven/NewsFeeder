@@ -50,7 +50,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new ArticlesDetailsViewModel();
         } else if (modelClass.isAssignableFrom(ProvidersFilterViewModel.class)) {
             //noinspection unchecked
-            return (T) new ProvidersFilterViewModel();
+            return (T) new ProvidersFilterViewModel(mArticleRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

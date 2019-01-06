@@ -1,24 +1,17 @@
-package com.islam.newsfeeder.POJO;
+package com.islam.newsfeeder.POJO.network;
 
 import android.support.annotation.Nullable;
 
-public final class ApiResponse<V> {
-
-    @Nullable
-    private V articles;
+public abstract class ApiResponse<V> {
 
     private String status;
 
     private String totalResults;
 
     @Nullable
-    public V getData() {
-        return articles;
-    }
+    public abstract V getData();
 
-    public void setData(@Nullable V data) {
-        this.articles = data;
-    }
+    public abstract void setData(@Nullable V data);
 
     public String getStatus() {
         return status;
