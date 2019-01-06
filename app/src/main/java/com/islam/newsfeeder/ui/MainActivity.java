@@ -1,5 +1,9 @@
 package com.islam.newsfeeder.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,8 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.recievers.AlarmReceiver;
 import com.islam.newsfeeder.ui.home.HomeFragment;
 import com.islam.newsfeeder.ui.saved_article.SavedArticleFragment;
+import com.islam.newsfeeder.util.PreferenceUtils;
+
+import static com.islam.newsfeeder.util.Constants.INTERVAL_UPDATE_DATABASE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        //check if the job has scheduled before
+        boolean isRunning = PreferenceUtils.getIsJobSchedulerRunning(this);
+        if (!isRunning)
+            scheduleAlarm();
     }
 
     public void replaceFragment(Class<?> fragmentClass, String tag) {
@@ -62,6 +74,22 @@ public class MainActivity extends AppCompatActivity {
 
         //replace the ragment
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).commit();
+    }
+
+    public void scheduleAlarm() {
+
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this,
+                AlarmReceiver.REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC,
+                System.currentTimeMillis() + INTERVAL_UPDATE_DATABASE,// fire arter 10 min from now
+                INTERVAL_UPDATE_DATABASE,//repeat every 10min
+                pIntent);
     }
 
 

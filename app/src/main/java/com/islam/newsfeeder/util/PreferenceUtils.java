@@ -2,6 +2,7 @@ package com.islam.newsfeeder.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.islam.newsfeeder.util.Constants.KEY_JOB_SCHEDULER_STATUS;
 import static com.islam.newsfeeder.util.Constants.KEY_PROVIDERS;
 import static com.islam.newsfeeder.util.Constants.SHARE_PROVIDERS_file;
 
@@ -62,6 +64,16 @@ public final class PreferenceUtils {
             return getDefaultProviders();
         }
 
+    }
+
+    public static void saveIsJobSchedulerRunning(Context context, boolean b) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putBoolean(KEY_JOB_SCHEDULER_STATUS, b);
+        editor.apply();
+    }
+
+    public static boolean getIsJobSchedulerRunning(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_JOB_SCHEDULER_STATUS, false);
     }
 
     private static ArrayList<Provider> getDefaultProviders() {

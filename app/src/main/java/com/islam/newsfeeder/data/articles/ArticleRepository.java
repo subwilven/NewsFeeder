@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
@@ -21,8 +22,6 @@ import com.islam.newsfeeder.util.PreferenceUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,8 +52,7 @@ public class ArticleRepository {
         return new NetworkBoundResource<List<Article>>(MyApplication.getInstance()) {
             @Override
             protected void saveToDatabase(@NonNull List<Article> articles) {
-                mArticleDao.clearAllData();
-                mArticleDao.insert(articles);
+                saveArticlesToDataBase(articles);
             }
 
             @NonNull
@@ -68,40 +66,53 @@ public class ArticleRepository {
             protected LiveData<ApiResponse<List<Article>>> serveRequest() {
 
                 final MutableLiveData<ApiResponse<List<Article>>> data = new MutableLiveData<>();
-
-                HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-                logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-                OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-                httpClient.addInterceptor(logging);
-
-                Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(httpClient.build())
-                        .build();
-
-                ArticleApi articleApi = retrofit.create(ArticleApi.class);
-                List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());
-                String sources = convertProvidersToString(providers);
-
-                Call<ArticleResponse> connection = articleApi.getArticles(
-                        "top-headlines",
-                        sources,
-                        BuildConfig.NEWS_API_KEY);
-
-                connection.enqueue(new Callback<ArticleResponse>() {
+                fetchArticles(new CallBacks.NetworkCallBack<ArticleResponse>() {
                     @Override
-                    public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
-                        data.setValue(response.body());
+                    public void onSuccess(ArticleResponse item) {
+                        data.setValue(item);
                     }
 
                     @Override
-                    public void onFailure(Call<ArticleResponse> call, Throwable t) {
+                    public void onFailed(String error) {
 
                     }
                 });
                 return data;
             }
         }.getAsLiveData();
+    }
+
+    public void saveArticlesToDataBase(List<Article> articles) {
+        Log.i(ArticleRepository.class.getName(), "UPDATE THE DATA BASE");
+        mArticleDao.clearAllData();
+        mArticleDao.insert(articles);
+    }
+
+    public void fetchArticles(CallBacks.NetworkCallBack callBack) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ArticleApi articleApi = retrofit.create(ArticleApi.class);
+        List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());
+        String sources = convertProvidersToString(providers);
+
+        Call<ArticleResponse> connection = articleApi.getArticles(
+                "top-headlines",
+                sources,
+                BuildConfig.NEWS_API_KEY);
+
+        connection.enqueue(new Callback<ArticleResponse>() {
+            @Override
+            public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                callBack.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArticleResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private String convertProvidersToString(List<Provider> providers) {
@@ -117,15 +128,8 @@ public class ArticleRepository {
 
     public void getProviders(CallBacks.NetworkCallBack<List<Provider>> callBack) {
 
-
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
-
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
                 .build();
 
         ArticleApi articleApi = retrofit.create(ArticleApi.class);
