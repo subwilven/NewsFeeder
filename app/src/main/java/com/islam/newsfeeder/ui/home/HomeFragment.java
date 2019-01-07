@@ -31,7 +31,6 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
     public final static String TAG = "HomeFragment";
     HomeViewModel mViewModel;
     ProvidersAdapter mAdapter;
-    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
@@ -39,9 +38,7 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
         mAdapter = new ProvidersAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout = view.findViewById(R.id.swiperefresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         setHasOptionsMenu(true);
     }
 
@@ -50,9 +47,9 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
         mViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<Resource<Map<String, List<Article>>>>() {
             @Override
             public void onChanged(@Nullable Resource<Map<String, List<Article>>> listResource) {
+                updateScreenStatus(getScreenStatus(listResource));
                 if (listResource.getData() != null) {
                     mAdapter.setData(listResource.getData());
-                    mSwipeRefreshLayout.setRefreshing(false);
                 }
             }
         });

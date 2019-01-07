@@ -17,6 +17,7 @@ import com.islam.newsfeeder.POJO.network.ProvidersResponse;
 import com.islam.newsfeeder.data.server_connection_helper.NetworkBoundResource;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
+import com.islam.newsfeeder.util.NetworkUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
 import java.util.ArrayList;
@@ -126,8 +127,11 @@ public class ArticleRepository {
         return TextUtils.join(",", resources);
     }
 
-    public void getProviders(CallBacks.NetworkCallBack<List<Provider>> callBack) {
+    public void fetchAllProviders(CallBacks.NetworkCallBack<List<Provider>> callBack) {
 
+        if (!NetworkUtils.haveNetworkConnection(MyApplication.getInstance().getApplicationContext())) {
+            callBack.onFailed(Constants.ERROR_NO_CONNECTION);
+        }
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

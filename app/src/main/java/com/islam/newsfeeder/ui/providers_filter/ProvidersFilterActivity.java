@@ -94,6 +94,13 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
                 addNewChip(provider, mViewModel.getProvidersList().getValue().size() - 1);
             }
         });
+
+        mViewModel.getShowToastNoConnection().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                Toast.makeText(ProvidersFilterActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

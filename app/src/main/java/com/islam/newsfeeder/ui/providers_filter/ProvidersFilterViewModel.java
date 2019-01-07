@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.CallBacks;
+import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
 
 import java.util.List;
@@ -20,6 +21,9 @@ public class ProvidersFilterViewModel extends ViewModel {
     private SingleLiveEvent<Boolean> onSaveClicked = new SingleLiveEvent<>();
     //fired when user try to save and there is no any checked provider
     private SingleLiveEvent<Boolean> showToastAtLeastOnProvider = new SingleLiveEvent<>();
+
+    //fired when user try to do action while no internet connection
+    private SingleLiveEvent<Boolean> showToastNoConnection = new SingleLiveEvent<>();
 
     //fired when user try to add new providers to show loading dialog until the providers list fetched
     private SingleLiveEvent<Boolean> showLoadingDialog = new SingleLiveEvent<>();
@@ -69,7 +73,7 @@ public class ProvidersFilterViewModel extends ViewModel {
         if (allProvidersList == null) {
             //show loading dialog
             showLoadingDialog.setValue(true);
-            mRepository.getProviders(new CallBacks.NetworkCallBack<List<Provider>>() {
+            mRepository.fetchAllProviders(new CallBacks.NetworkCallBack<List<Provider>>() {
                 @Override
                 public void onSuccess(List<Provider> items) {
                     //hide loading dialog and show providers list dialog
@@ -82,6 +86,8 @@ public class ProvidersFilterViewModel extends ViewModel {
                 @Override
                 public void onFailed(String error) {
                     showLoadingDialog.setValue(false);
+                    if (error.equals(Constants.ERROR_NO_CONNECTION))
+                        showToastNoConnection.setValue(true);
                 }
             });
         } else {
@@ -142,5 +148,9 @@ public class ProvidersFilterViewModel extends ViewModel {
 
     public void setTheLastChipIsAdded(boolean theLastChipIsAdded) {
         this.isTheLastChipAdded = theLastChipIsAdded;
+    }
+
+    public LiveData<Boolean> getShowToastNoConnection() {
+        return showToastNoConnection;
     }
 }

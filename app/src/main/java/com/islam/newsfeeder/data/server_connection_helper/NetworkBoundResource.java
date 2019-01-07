@@ -29,7 +29,7 @@ public abstract class NetworkBoundResource<ResultType> {
         if (hasNetworkConnection()) {
             result.addSource(dbSource, data -> {
                 result.removeSource(dbSource);
-                fetchFromNetwork(dbSource);
+                fetchFromNetwork();
                 if (((ArrayList) data).size() == 0) {
                     result.setValue(Resource.loading(data));
                 }
@@ -66,7 +66,7 @@ public abstract class NetworkBoundResource<ResultType> {
     }
 
 
-    private void fetchFromNetwork(final LiveData<ResultType> dbSource) {
+    private void fetchFromNetwork() {
         LiveData<ApiResponse<ResultType>> apiResponse = serveRequest();
         result.addSource(apiResponse, response -> {
             //

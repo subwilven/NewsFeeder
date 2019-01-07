@@ -15,4 +15,5 @@
     <string name="syncing">Syncing</string>
     <string name="syncing_database">Syncing Database</string>
     <string name="download_in_progress">Download in progress</string>
+    <string name="no_network_connection">Oops no network connection</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.islam.newsfeeder.util;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.islam.newsfeeder.util.other.RoundedCornersTransformation;
@@ -18,6 +19,12 @@ public final class ActivityUtils {
             if (cornersTransformation != null)
                 creator.transform(cornersTransformation);
             creator.into(imageView);
+        }
+    }
+
+    public static void setVisibility(int v, View... views) {
+        for (View view : views) {
+            view.setVisibility(v);
         }
     }
 }
