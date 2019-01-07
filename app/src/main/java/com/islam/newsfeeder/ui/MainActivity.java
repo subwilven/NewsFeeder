@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        //if this the first launch
+        if (savedInstanceState == null)
+            replaceFragment(HomeFragment.class, HomeFragment.TAG);
         //check if the job has scheduled before
         boolean isRunning = PreferenceUtils.getIsJobSchedulerRunning(this);
         if (!isRunning)
