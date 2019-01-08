@@ -1,69 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/draw_insets_frame_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.sample.foo.usingcoordinatorlayout.FabAndSnackbarActivity">
 
-    <ImageView
-        android:id="@+id/article_details_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:elevation="4dp">
 
-    <TextView
-        android:id="@+id/article_details_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/article_details_image"
-        app:layout_constraintStart_toStartOf="@+id/article_details_image"
-        app:layout_constraintTop_toBottomOf="@+id/article_details_image" />
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="4dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleTextAppearance="@style/TransparentText"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <TextView
-        android:id="@+id/article_details_published_at"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/article_details_title"
-        app:layout_constraintStart_toStartOf="@+id/article_details_title"
-        app:layout_constraintTop_toBottomOf="@+id/article_details_title" />
+            <ImageView
+                android:id="@+id/article_details_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:transitionName="image"
+                app:layout_collapseMode="parallax" />
 
-    <TextView
-        android:id="@+id/article_details_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/article_details_published_at"
-        app:layout_constraintStart_toStartOf="@+id/article_details_published_at"
-        app:layout_constraintTop_toBottomOf="@+id/article_details_published_at" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:alpha="1.0"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:titleTextAppearance="@style/AppTheme.Toolbar.Title" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/article_details_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/article_details_content"
-        app:layout_constraintStart_toStartOf="@+id/article_details_content"
-        app:layout_constraintTop_toBottomOf="@+id/article_details_content" />
+    <ScrollView
+        android:id="@+id/sv_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/article_details_provider_name"
-        android:layout_width="wrap_content"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/article_details_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text=" sdfasidf kas dfaskdfhwi fsdjhfwfu" />
+
+            <TextView
+                android:id="@+id/article_details_published_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/article_details_author"
+                app:layout_constraintTop_toBottomOf="@+id/article_details_author"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/article_details_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/article_details_title"
+                app:layout_constraintStart_toStartOf="@+id/article_details_published_at"
+                app:layout_constraintTop_toBottomOf="@+id/article_details_published_at"
+                tools:text="TextView" />
+
+            <TextView
+                android:id="@+id/article_details_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/article_details_title"
+                app:layout_constraintTop_toBottomOf="@+id/article_details_title"
+                tools:text="TextView" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_go_to_website"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/article_details_author"
-        app:layout_constraintStart_toStartOf="@+id/article_details_author"
-        app:layout_constraintTop_toBottomOf="@+id/article_details_author" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_language_black_24dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_anchor="@+id/appBar"
+        app:layout_anchorGravity="right|bottom"
+        app:pressedTranslationZ="12dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="4dp" />
+</android.support.design.widget.CoordinatorLayout>

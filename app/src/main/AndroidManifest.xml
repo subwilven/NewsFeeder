@@ -29,6 +29,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.providers_filter.ProvidersFilterActivity" />
+        <activity
+            android:name=".ui.article_details.ArticleDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

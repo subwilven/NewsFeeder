@@ -16,7 +16,7 @@ import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
-import com.islam.newsfeeder.ui.article_details.ArticleDetailsFragment;
+import com.islam.newsfeeder.ui.article_details.ArticleDetailsActivity;
 import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterActivity;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.PreferenceUtils;
@@ -24,6 +24,8 @@ import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.islam.newsfeeder.util.Constants.BUNDLE_ARTICLE;
 
 public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout.OnRefreshListener,
         CallBacks.AdapterCallBack<Article>, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -103,11 +105,10 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
 
     @Override
     public void onItemClicked(Article item) {
-        getActivity().getSupportFragmentManager().beginTransaction().hide(this).commit();
+        Intent intent = new Intent(getContext(), ArticleDetailsActivity.class);
 
-        getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                .add(R.id.container, ArticleDetailsFragment.getInstance(item)).commit();
-
+        intent.putExtra(BUNDLE_ARTICLE, item);
+        startActivity(intent);
     }
 
     @Override
