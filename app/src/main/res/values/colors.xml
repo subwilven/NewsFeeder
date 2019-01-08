@@ -8,4 +8,5 @@
     <color name="colorTextPrimary">#87000000</color>
     <color name="colorTextSecondary">#60000000</color>
     <color name="colorTextSecondary2">#30000000</color>
+    <color name="gray">#913e3e3e</color>
 </resources>
