@@ -80,7 +80,7 @@ public final class PreferenceUtils {
         ArrayList<Provider> providers = new ArrayList<>();
         providers.add(new Provider("bbc-news", "BBC News", true));
         providers.add(new Provider("cnn", "CNN", true));
-        providers.add(new Provider("abc-news", "ABC News", true));
+        providers.add(new Provider("aftenposten", "Aftenposten", true));
         return providers;
     }
 
