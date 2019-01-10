@@ -17,4 +17,5 @@
     <string name="download_in_progress">Download in progress</string>
     <string name="no_network_connection">Oops no network connection</string>
     <string name="watch_later">Watch later</string>
+    <string name="read_more">Read more</string>
 </resources>

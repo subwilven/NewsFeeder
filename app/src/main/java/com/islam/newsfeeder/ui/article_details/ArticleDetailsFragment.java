@@ -97,6 +97,7 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
         publishedAtTextView = view.findViewById(R.id.article_details_published_at);
         imageView = view.findViewById(R.id.article_details_image);
         view.findViewById(R.id.fab_go_to_website).setOnClickListener(this);
+        view.findViewById(R.id.article_details_btn_read_more).setOnClickListener(this);
 
         setUpObservers();
         return view;
@@ -138,7 +139,12 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        mViewModel.setShouldOpenCustomTab(true);
+        switch (view.getId()) {
+            case R.id.article_details_btn_read_more:
+                mViewModel.setShouldOpenCustomTab(true);
+                break;
+        }
+
     }
 
 
