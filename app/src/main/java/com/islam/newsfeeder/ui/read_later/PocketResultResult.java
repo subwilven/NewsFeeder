@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.ui.saved_article;
+package com.islam.newsfeeder.ui.read_later;
 
 import android.content.Intent;
 import android.os.Bundle;

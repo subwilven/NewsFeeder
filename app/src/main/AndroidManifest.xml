@@ -33,7 +33,7 @@
         <activity
             android:name=".ui.article_details.ArticleDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.saved_article.PocketResultResult">
+        <activity android:name=".ui.read_later.PocketResultResult">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

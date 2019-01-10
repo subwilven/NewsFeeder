@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.ui.saved_article;
+package com.islam.newsfeeder.ui.read_later;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,14 +15,14 @@ import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 import static com.islam.newsfeeder.util.Constants.redirectUri;
 
-public class SavedArticleFragment extends BaseFragmentList implements View.OnClickListener {
+public class ReadLaterFragment extends BaseFragmentList implements View.OnClickListener {
 
-    SavedArticleViewModel mViewModel;
+    ReadLaterViewModel mViewModel;
     Button gotoPocketButton;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(SavedArticleViewModel.class);
+        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ReadLaterViewModel.class);
         gotoPocketButton = view.findViewById(R.id.go_to_pocket);
         gotoPocketButton.setOnClickListener(this);
     }

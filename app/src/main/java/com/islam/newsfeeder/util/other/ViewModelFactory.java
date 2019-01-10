@@ -8,9 +8,9 @@ import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.data.pocket.PocketRepository;
 import com.islam.newsfeeder.ui.article_details.ArticlesDetailsViewModel;
-import com.islam.newsfeeder.ui.home.HomeViewModel;
+import com.islam.newsfeeder.ui.articles_list.ArticlesViewModel;
 import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterViewModel;
-import com.islam.newsfeeder.ui.saved_article.SavedArticleViewModel;
+import com.islam.newsfeeder.ui.read_later.ReadLaterViewModel;
 
 /**
  * Created by eslam on 13-May-18.
@@ -44,12 +44,12 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(SavedArticleViewModel.class)) {
+        if (modelClass.isAssignableFrom(ReadLaterViewModel.class)) {
             //noinspection unchecked
-            return (T) new SavedArticleViewModel(mPocketRepository);
-        } else if (modelClass.isAssignableFrom(HomeViewModel.class)) {
+            return (T) new ReadLaterViewModel(mPocketRepository);
+        } else if (modelClass.isAssignableFrom(ArticlesViewModel.class)) {
             //noinspection unchecked
-            return (T) new HomeViewModel(mArticleRepository);
+            return (T) new ArticlesViewModel(mArticleRepository);
         } else if (modelClass.isAssignableFrom(ArticlesDetailsViewModel.class)) {
             //noinspection unchecked
             return (T) new ArticlesDetailsViewModel(mPocketRepository);

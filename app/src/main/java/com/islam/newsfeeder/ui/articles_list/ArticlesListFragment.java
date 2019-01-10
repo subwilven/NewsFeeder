@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.ui.home;
+package com.islam.newsfeeder.ui.articles_list;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -27,16 +27,16 @@ import java.util.Map;
 
 import static com.islam.newsfeeder.util.Constants.BUNDLE_ARTICLE;
 
-public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout.OnRefreshListener,
+public class ArticlesListFragment extends BaseFragmentList implements SwipeRefreshLayout.OnRefreshListener,
         CallBacks.AdapterCallBack<Article>, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public final static String TAG = "HomeFragment";
-    HomeViewModel mViewModel;
+    public final static String TAG = "ArticlesListFragment";
+    ArticlesViewModel mViewModel;
     ProvidersAdapter mAdapter;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(getActivity(), ViewModelFactory.getInstance()).get(HomeViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity(), ViewModelFactory.getInstance()).get(ArticlesViewModel.class);
         mAdapter = new ProvidersAdapter(this);
         recyclerView.setAdapter(mAdapter);
 

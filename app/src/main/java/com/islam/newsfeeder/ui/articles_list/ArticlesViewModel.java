@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.ui.home;
+package com.islam.newsfeeder.ui.articles_list;
 
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeViewModel extends ViewModel {
+public class ArticlesViewModel extends ViewModel {
 
     private final ArticleRepository mRepository;
     //here is the articles
@@ -26,7 +26,7 @@ public class HomeViewModel extends ViewModel {
     // useed to indicate the the data should be updated ( in case there are changes in providers or the user force reload)
     private SingleLiveEvent<Boolean> shouldReload = new SingleLiveEvent<>();
 
-    public HomeViewModel(ArticleRepository mArticleRepository) {
+    public ArticlesViewModel(ArticleRepository mArticleRepository) {
         mRepository = mArticleRepository;
         loadArticles();
     }

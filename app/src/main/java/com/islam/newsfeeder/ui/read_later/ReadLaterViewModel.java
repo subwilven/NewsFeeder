@@ -1,17 +1,17 @@
-package com.islam.newsfeeder.ui.saved_article;
+package com.islam.newsfeeder.ui.read_later;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.islam.newsfeeder.data.pocket.PocketRepository;
 
-public class SavedArticleViewModel extends ViewModel {
+public class ReadLaterViewModel extends ViewModel {
 
 
     private final PocketRepository mRepository;
     private LiveData<String> onRequestTokenReceived;
 
-    public SavedArticleViewModel(PocketRepository mArticleRepository) {
+    public ReadLaterViewModel(PocketRepository mArticleRepository) {
         mRepository = mArticleRepository;
     }
 

@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.ui.home;
+package com.islam.newsfeeder.ui.articles_list;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

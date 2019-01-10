@@ -13,8 +13,8 @@ import android.view.MenuItem;
 
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.recievers.AlarmReceiver;
-import com.islam.newsfeeder.ui.home.HomeFragment;
-import com.islam.newsfeeder.ui.saved_article.SavedArticleFragment;
+import com.islam.newsfeeder.ui.articles_list.ArticlesListFragment;
+import com.islam.newsfeeder.ui.read_later.ReadLaterFragment;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
 import static com.islam.newsfeeder.util.Constants.INTERVAL_UPDATE_DATABASE;
@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    replaceFragment(HomeFragment.class, HomeFragment.TAG);
+                    replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
                     return true;
                 case R.id.navigation_dashboard:
-                    replaceFragment(SavedArticleFragment.class, null);
+                    replaceFragment(ReadLaterFragment.class, null);
                     return true;
             }
             return false;
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         //if this the first launch
         if (savedInstanceState == null)
-            replaceFragment(HomeFragment.class, HomeFragment.TAG);
+            replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
         //check if the job has scheduled before
         boolean isRunning = PreferenceUtils.getIsAlarmRunning(this);
         if (!isRunning)
