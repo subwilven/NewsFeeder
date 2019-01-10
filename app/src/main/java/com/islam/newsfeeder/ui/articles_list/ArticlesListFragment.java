@@ -59,7 +59,7 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_list;
+        return R.layout.fragment_article_list;
     }
 
     @Override

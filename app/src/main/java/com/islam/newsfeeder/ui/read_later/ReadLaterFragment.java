@@ -44,7 +44,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_saved_articles;
+        return R.layout.fragment_read_later;
     }
 
 
