@@ -2,7 +2,9 @@ package com.islam.newsfeeder.util;
 
 public final class Constants {
 
-    public final static String basicUrl = "https://newsapi.org/v2/";
+    public final static String URL_NEWS_API = "https://newsapi.org/v2/";
+    public final static String URL_POCKET_API = "https://getpocket.com/v3/";
+    public final static String redirectUri = "pocketapp83166://open.my.app";
 
     public static final int STATUS_LAYOUT_DATA = 0;
     public static final int STATUS_LAYOUT_NO_DATA = 1;

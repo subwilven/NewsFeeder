@@ -17,9 +17,10 @@
         <service
             android:name=".services.DbUpdateJobService"
             android:exported="true" />
+
         <receiver
             android:name=".recievers.AlarmReceiver"
-            android:process=":remote"></receiver>
+            android:process=":remote" />
 
         <activity android:name=".ui.MainActivity">
             <intent-filter>
@@ -32,6 +33,19 @@
         <activity
             android:name=".ui.article_details.ArticleDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.LauncherActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="pocketapp83166" />
+                <data
+                    android:host="open.my.app"
+                    android:scheme="pocketapp83166" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

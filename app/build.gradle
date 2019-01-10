@@ -23,7 +23,8 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String','NEWS_API_KEY' ,'"b7d4d6334644451596939d1821187aba"'
+        it.buildConfigField 'String', 'NEWS_API_KEY', '"b7d4d6334644451596939d1821187aba"'
+        it.buildConfigField 'String', 'KEY_POCKET_CONSUMER', '"83166-8df67cfe1935c4f5d24e01cb"'
     }
 }
 

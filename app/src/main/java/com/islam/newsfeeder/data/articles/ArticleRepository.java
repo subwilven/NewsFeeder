@@ -90,7 +90,7 @@ public class ArticleRepository {
     }
 
     public void fetchArticles(CallBacks.NetworkCallBack callBack) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_NEWS_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -132,7 +132,7 @@ public class ArticleRepository {
         if (!NetworkUtils.haveNetworkConnection(MyApplication.getInstance().getApplicationContext())) {
             callBack.onFailed(Constants.ERROR_NO_CONNECTION);
         }
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.basicUrl)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_NEWS_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

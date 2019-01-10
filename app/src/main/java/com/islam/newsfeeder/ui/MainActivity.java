@@ -10,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.recievers.AlarmReceiver;
@@ -55,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         boolean isRunning = PreferenceUtils.getIsJobSchedulerRunning(this);
         if (!isRunning)
             scheduleAlarm();
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, LauncherActivity.class));
+            }
+        });
     }
 
     public void replaceFragment(Class<?> fragmentClass, String tag) {
