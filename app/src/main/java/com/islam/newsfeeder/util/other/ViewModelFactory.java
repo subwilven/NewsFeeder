@@ -52,7 +52,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             return (T) new HomeViewModel(mArticleRepository);
         } else if (modelClass.isAssignableFrom(ArticlesDetailsViewModel.class)) {
             //noinspection unchecked
-            return (T) new ArticlesDetailsViewModel();
+            return (T) new ArticlesDetailsViewModel(mPocketRepository);
         } else if (modelClass.isAssignableFrom(ProvidersFilterViewModel.class)) {
             //noinspection unchecked
             return (T) new ProvidersFilterViewModel(mArticleRepository);

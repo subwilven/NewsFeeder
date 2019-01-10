@@ -23,4 +23,11 @@ public interface PocketApi {
     Call<PocketResponse.AccessTokenResponse> getAccessToken(@Field("consumer_key") String consumerKey,
                                                             @Field("code") String code);
 
+    @Headers("X-Accept: application/json")
+    @FormUrlEncoded
+    @POST("add")
+    Call<PocketResponse.AddArticleResponse> addArticleToReadLater(@Field("consumer_key") String consumerKey,
+                                                                  @Field("access_token") String accessToken,
+                                                                  @Field("title") String title,
+                                                                  @Field("url") String url);
 }

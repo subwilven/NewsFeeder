@@ -13,4 +13,8 @@ public interface PocketResponse {
         public String accessToken;
         public String username;
     }
+
+    class AddArticleResponse {
+        public int status;
+    }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.R;
@@ -37,6 +39,7 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
     private TextView publishedAtTextView;
     private ImageView imageView;
     private int mMutedColor = 0xFF333333;
+    FloatingActionButton readLaterFab;
 
     private final Target target = new Target() {
         @Override
@@ -96,7 +99,8 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
         authorTextView = view.findViewById(R.id.article_details_author);
         publishedAtTextView = view.findViewById(R.id.article_details_published_at);
         imageView = view.findViewById(R.id.article_details_image);
-        view.findViewById(R.id.fab_go_to_website).setOnClickListener(this);
+        readLaterFab = view.findViewById(R.id.fab_read_later);
+        readLaterFab.setOnClickListener(this);
         view.findViewById(R.id.article_details_btn_read_more).setOnClickListener(this);
 
         setUpObservers();
@@ -124,6 +128,13 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
                     openCustomTab();
             }
         });
+
+        mViewModel.getShowToastNoConnection().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                Toast.makeText(getContext(), getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void openCustomTab() {
@@ -142,6 +153,10 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
         switch (view.getId()) {
             case R.id.article_details_btn_read_more:
                 mViewModel.setShouldOpenCustomTab(true);
+                break;
+            case R.id.fab_read_later:
+                mViewModel.addArticleToReadLater();
+                Toast.makeText(getContext(), getString(R.string.added_to_real_later), Toast.LENGTH_SHORT).show();
                 break;
         }
 

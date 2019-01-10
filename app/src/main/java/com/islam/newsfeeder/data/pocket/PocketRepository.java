@@ -6,9 +6,12 @@ import android.content.Context;
 
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
+import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.network.PocketResponse;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
+import com.islam.newsfeeder.util.NetworkUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
 import retrofit2.Call;
@@ -17,6 +20,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.islam.newsfeeder.util.Constants.ERROR_NO_CONNECTION;
 import static com.islam.newsfeeder.util.Constants.KEY_ACCESS_TOKEN;
 import static com.islam.newsfeeder.util.Constants.KEY_REQUEST_TOKEN;
 import static com.islam.newsfeeder.util.Constants.redirectUri;
@@ -91,6 +95,41 @@ public class PocketRepository {
 
             @Override
             public void onFailure(Call<PocketResponse.AccessTokenResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void addArticleToReadLater(Article article, CallBacks.NetworkCallBack callBack) {
+        Context context = MyApplication.getInstance().getApplicationContext();
+        //check internet connection
+        if (!NetworkUtils.haveNetworkConnection(context)) {
+            callBack.onFailed(ERROR_NO_CONNECTION);
+            return;
+        }
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        String accessToken = PreferenceUtils.getPocketData(context, KEY_ACCESS_TOKEN);
+        PocketApi pocketApi = retrofit.create(PocketApi.class);
+
+        Call<PocketResponse.AddArticleResponse> token = pocketApi.
+                addArticleToReadLater(BuildConfig.KEY_POCKET_CONSUMER,
+                        accessToken,
+                        article.getTitle(),
+                        article.getArticleUrl());
+
+        token.enqueue(new Callback<PocketResponse.AddArticleResponse>() {
+            @Override
+            public void onResponse(Call<PocketResponse.AddArticleResponse> call, Response<PocketResponse.AddArticleResponse> response) {
+                if (response.isSuccessful()) {
+                    callBack.onSuccess(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PocketResponse.AddArticleResponse> call, Throwable t) {
 
             }
         });
