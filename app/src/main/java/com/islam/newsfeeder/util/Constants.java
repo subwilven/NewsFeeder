@@ -13,8 +13,12 @@ public final class Constants {
     public static final int STATUS_SNACK_BAR_NO_CONNECTION = 4;
 
     public static final String SHARE_PROVIDERS_file = "providers";
+    public static final String SHARE_POCKET_file = "pocket";
+
     public static final String KEY_PROVIDERS = "providers";
     public static final String KEY_JOB_SCHEDULER_STATUS = "job_scheduler";
+    public static final String KEY_REQUEST_TOKEN = "request_token";
+    public static final String KEY_ACCESS_TOKEN = "access_token";
 
     public static final String BUNDLE_ARTICLE = "article";
 

@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragmentList implements SwipeRefreshLayout
             @Override
             public void onChanged(@Nullable Resource<Map<String, List<Article>>> listResource) {
                 updateScreenStatus(getScreenStatus(listResource));
-                if (listResource.getData() != null) {
+                if (listResource.getData() != null && listResource.getData().size() > 0) {
                     mAdapter.setData(listResource.getData());
                 }
             }

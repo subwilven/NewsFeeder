@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.islam.newsfeeder.util.Constants.KEY_JOB_SCHEDULER_STATUS;
 import static com.islam.newsfeeder.util.Constants.KEY_PROVIDERS;
+import static com.islam.newsfeeder.util.Constants.SHARE_POCKET_file;
 import static com.islam.newsfeeder.util.Constants.SHARE_PROVIDERS_file;
 
 public final class PreferenceUtils {
@@ -23,6 +24,21 @@ public final class PreferenceUtils {
 
     public static SharedPreferences getProviderSharedPreference(Context context) {
         return context.getSharedPreferences(SHARE_PROVIDERS_file, Context.MODE_PRIVATE);
+    }
+
+    public static SharedPreferences getPocketSharedPreference(Context context) {
+        return context.getSharedPreferences(SHARE_POCKET_file, Context.MODE_PRIVATE);
+    }
+
+    public static void savePocketData(Context context, String key, String value) {
+        SharedPreferences sharedPreferences = getPocketSharedPreference(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public static String getPocketData(Context context, String key) {
+        return getPocketSharedPreference(context).getString(key, null);
     }
 
     public static void saveProvidersInShared(Context context, List<Provider> providers) {
@@ -66,13 +82,13 @@ public final class PreferenceUtils {
 
     }
 
-    public static void saveIsJobSchedulerRunning(Context context, boolean b) {
+    public static void saveIsAlarmManagerRunning(Context context, boolean b) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putBoolean(KEY_JOB_SCHEDULER_STATUS, b);
         editor.apply();
     }
 
-    public static boolean getIsJobSchedulerRunning(Context context) {
+    public static boolean getIsAlarmRunning(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_JOB_SCHEDULER_STATUS, false);
     }
 

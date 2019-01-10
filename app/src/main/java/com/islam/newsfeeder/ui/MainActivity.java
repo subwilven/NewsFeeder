@@ -10,7 +10,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.recievers.AlarmReceiver;
@@ -53,16 +52,9 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null)
             replaceFragment(HomeFragment.class, HomeFragment.TAG);
         //check if the job has scheduled before
-        boolean isRunning = PreferenceUtils.getIsJobSchedulerRunning(this);
+        boolean isRunning = PreferenceUtils.getIsAlarmRunning(this);
         if (!isRunning)
             scheduleAlarm();
-
-        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, LauncherActivity.class));
-            }
-        });
     }
 
     public void replaceFragment(Class<?> fragmentClass, String tag) {
@@ -101,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                 System.currentTimeMillis() + INTERVAL_UPDATE_DATABASE,// fire arter 10 min from now
                 INTERVAL_UPDATE_DATABASE,//repeat every 10min
                 pIntent);
+
+        PreferenceUtils.saveIsAlarmManagerRunning(this, true);
     }
 
 

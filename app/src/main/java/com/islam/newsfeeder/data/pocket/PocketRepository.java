@@ -1,0 +1,98 @@
+package com.islam.newsfeeder.data.pocket;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+
+import com.islam.newsfeeder.BuildConfig;
+import com.islam.newsfeeder.MyApplication;
+import com.islam.newsfeeder.POJO.network.PocketResponse;
+import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.util.Constants;
+import com.islam.newsfeeder.util.PreferenceUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.islam.newsfeeder.util.Constants.KEY_ACCESS_TOKEN;
+import static com.islam.newsfeeder.util.Constants.KEY_REQUEST_TOKEN;
+import static com.islam.newsfeeder.util.Constants.redirectUri;
+
+public class PocketRepository {
+
+    private static PocketRepository INSTANCE = null;
+
+    private PocketRepository() {
+    }
+
+    public static PocketRepository getInstance() {
+        if (INSTANCE == null) {
+            synchronized (ArticleRepository.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new PocketRepository();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+
+    public LiveData<String> login() {
+        MutableLiveData<String> result = new MutableLiveData<>();
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PocketApi articleApi = retrofit.create(PocketApi.class);
+        Call<PocketResponse.RequestTokenResponse> connection = articleApi.requestToken(
+                BuildConfig.KEY_POCKET_CONSUMER, redirectUri);
+
+        connection.enqueue(new Callback<PocketResponse.RequestTokenResponse>() {
+            @Override
+            public void onResponse(Call<PocketResponse.RequestTokenResponse> call, Response<PocketResponse.RequestTokenResponse> response) {
+                if (response.isSuccessful()) {
+                    result.setValue(response.body().code);
+                    PreferenceUtils.savePocketData(MyApplication.getInstance().getApplicationContext(),
+                            KEY_REQUEST_TOKEN, response.body().code);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PocketResponse.RequestTokenResponse> call, Throwable t) {
+
+            }
+
+        });
+        return result;
+    }
+
+    public void getAccessToken() {
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        String requestToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_REQUEST_TOKEN);
+        PocketApi pocketApi = retrofit.create(PocketApi.class);
+        Call<PocketResponse.AccessTokenResponse> token
+                = pocketApi.getAccessToken(BuildConfig.KEY_POCKET_CONSUMER, requestToken);
+
+        token.enqueue(new Callback<PocketResponse.AccessTokenResponse>() {
+            @Override
+            public void onResponse(Call<PocketResponse.AccessTokenResponse> call, Response<PocketResponse.AccessTokenResponse> response) {
+                if (response.isSuccessful()) {
+                    Context context = MyApplication.getInstance().getApplicationContext();
+                    PreferenceUtils.savePocketData(context, KEY_ACCESS_TOKEN, response.body().accessToken);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PocketResponse.AccessTokenResponse> call, Throwable t) {
+
+            }
+        });
+    }
+}

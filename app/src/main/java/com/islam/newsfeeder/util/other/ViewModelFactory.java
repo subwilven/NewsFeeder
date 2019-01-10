@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.data.pocket.PocketRepository;
 import com.islam.newsfeeder.ui.article_details.ArticlesDetailsViewModel;
 import com.islam.newsfeeder.ui.home.HomeViewModel;
 import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterViewModel;
@@ -19,9 +20,11 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private static volatile ViewModelFactory INSTANCE;
     private final ArticleRepository mArticleRepository;
+    private final PocketRepository mPocketRepository;
 
-    public ViewModelFactory(ArticleRepository articleRepository) {
+    public ViewModelFactory(ArticleRepository articleRepository, PocketRepository pocketRepository) {
         this.mArticleRepository = articleRepository;
+        mPocketRepository = pocketRepository;
     }
 
     public static ViewModelFactory getInstance() {
@@ -30,7 +33,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             synchronized (ViewModelFactory.class) {
                 if (INSTANCE == null) {
                     INSTANCE = new ViewModelFactory(
-                            ArticleRepository.getInstance(NewsFeederDatabase.getInstance().articleDao()));
+                            ArticleRepository.getInstance(NewsFeederDatabase.getInstance().articleDao())
+                            , PocketRepository.getInstance());
                 }
             }
         }
@@ -41,7 +45,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(SavedArticleViewModel.class)) {
-            return (T) new SavedArticleViewModel(mArticleRepository);
+            //noinspection unchecked
+            return (T) new SavedArticleViewModel(mPocketRepository);
         } else if (modelClass.isAssignableFrom(HomeViewModel.class)) {
             //noinspection unchecked
             return (T) new HomeViewModel(mArticleRepository);
