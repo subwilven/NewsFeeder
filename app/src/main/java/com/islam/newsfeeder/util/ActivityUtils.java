@@ -1,5 +1,6 @@
 package com.islam.newsfeeder.util;
 
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -8,6 +9,10 @@ import com.islam.newsfeeder.util.other.RoundedCornersTransformation;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public final class ActivityUtils {
     private ActivityUtils() {
@@ -47,5 +52,19 @@ public final class ActivityUtils {
         for (View view : views) {
             view.setVisibility(v);
         }
+    }
+
+    public static String calculateTimeDiff(String time) {
+        try {
+            time = time.substring(0, 10);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(time);
+
+            String diff = (String) DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(), 0);
+            return diff;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
