@@ -12,6 +12,8 @@ public class ReadLaterArticle {
     private String description;
     @SerializedName("resolved_url")
     private String articleUrl;
+    @SerializedName("given_title")
+    private String givenTitle;
 
     public String getTitle() {
         return title;
@@ -43,5 +45,13 @@ public class ReadLaterArticle {
 
     public void setArticleUrl(String articleUrl) {
         this.articleUrl = articleUrl;
+    }
+
+    public String getGivenTitle() {
+        return givenTitle;
+    }
+
+    public void setGivenTitle(String givenTitle) {
+        this.givenTitle = givenTitle;
     }
 }
