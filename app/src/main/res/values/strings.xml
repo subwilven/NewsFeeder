@@ -19,4 +19,5 @@
     <string name="watch_later">Watch later</string>
     <string name="read_more">Read more</string>
     <string name="added_to_real_later">Successfully added  to read later</string>
+    <string name="no_results">No results</string>
 </resources>

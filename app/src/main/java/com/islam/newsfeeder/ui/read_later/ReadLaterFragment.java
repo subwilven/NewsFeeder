@@ -6,31 +6,53 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.widget.Button;
 
+import com.islam.newsfeeder.POJO.Resource;
+import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
+import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
+
+import java.util.List;
 
 import static com.islam.newsfeeder.util.Constants.redirectUri;
 
-public class ReadLaterFragment extends BaseFragmentList implements View.OnClickListener {
+public class ReadLaterFragment extends BaseFragmentList implements View.OnClickListener,
+        CallBacks.AdapterCallBack<ReadLaterArticle>, SwipeRefreshLayout.OnRefreshListener {
 
     ReadLaterViewModel mViewModel;
     Button gotoPocketButton;
+    ReadLaterAdapter mAdapter;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ReadLaterViewModel.class);
+        mViewModel.init();
         gotoPocketButton = view.findViewById(R.id.go_to_pocket);
         gotoPocketButton.setOnClickListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        mAdapter = new ReadLaterAdapter(this);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void setUpObservers() {
 
-
+        mViewModel.getArticlesList().observe(getViewLifecycleOwner(), new Observer<Resource<List<ReadLaterArticle>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<List<ReadLaterArticle>> readLaterArticles) {
+                updateScreenStatus(getScreenStatus(readLaterArticles));
+                if (readLaterArticles.getData() != null && readLaterArticles.getData().size() > 0)
+                    mAdapter.setData(readLaterArticles.getData());
+            }
+        });
     }
 
 
@@ -61,5 +83,15 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
                 launchBrowser(code);
             }
         });
+    }
+
+    @Override
+    public void onItemClicked(ReadLaterArticle item) {
+
+    }
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

@@ -2,6 +2,8 @@ package com.islam.newsfeeder.POJO.network;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Map;
+
 public interface PocketResponse {
 
     class RequestTokenResponse {
@@ -17,4 +19,10 @@ public interface PocketResponse {
     class AddArticleResponse {
         public int status;
     }
+
+    class SavedArticlesResponse {
+        public Map<String, ReadLaterArticle> list;
+    }
+
+
 }

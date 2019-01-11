@@ -7,12 +7,17 @@ import android.content.Context;
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.POJO.network.PocketResponse;
+import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.NetworkUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -79,6 +84,7 @@ public class PocketRepository {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         String requestToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_REQUEST_TOKEN);
         PocketApi pocketApi = retrofit.create(PocketApi.class);
         Call<PocketResponse.AccessTokenResponse> token
@@ -133,5 +139,34 @@ public class PocketRepository {
 
             }
         });
+    }
+
+
+    public LiveData<Resource<List<ReadLaterArticle>>> fetchReadLaterArticles() {
+
+        MutableLiveData<Resource<List<ReadLaterArticle>>> list = new MutableLiveData<>();
+        list.setValue(Resource.loading(null));
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        String accessToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_ACCESS_TOKEN);
+        PocketApi pocketApi = retrofit.create(PocketApi.class);
+
+        Call<PocketResponse.SavedArticlesResponse> token = pocketApi.getReadLaterArticles(BuildConfig.KEY_POCKET_CONSUMER,
+                accessToken);
+
+        token.enqueue(new Callback<PocketResponse.SavedArticlesResponse>() {
+            @Override
+            public void onResponse(Call<PocketResponse.SavedArticlesResponse> call, Response<PocketResponse.SavedArticlesResponse> response) {
+                list.setValue(Resource.success(new ArrayList(response.body().list.values()), true));
+            }
+
+            @Override
+            public void onFailure(Call<PocketResponse.SavedArticlesResponse> call, Throwable t) {
+
+            }
+        });
+        return list;
     }
 }
