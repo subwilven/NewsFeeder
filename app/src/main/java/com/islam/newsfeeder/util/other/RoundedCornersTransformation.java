@@ -13,6 +13,9 @@ import android.graphics.Shader;
 
 import com.squareup.picasso.Transformation;
 
+/**
+ * this class used to round the images fetched by picasso the 3rd library
+ */
 public class RoundedCornersTransformation implements Transformation {
 
     private int mRadius;

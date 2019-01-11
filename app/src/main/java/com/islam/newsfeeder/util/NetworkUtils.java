@@ -36,6 +36,12 @@ public class NetworkUtils {
     }
 
 
+    /**
+     * check if the user has a WIFI connection or Mobile data on
+     *
+     * @param context
+     * @return true if has any network connection and false if not
+     */
     public static boolean haveNetworkConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

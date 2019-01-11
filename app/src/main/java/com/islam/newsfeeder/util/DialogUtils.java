@@ -11,6 +11,14 @@ public final class DialogUtils {
     private DialogUtils() {
     }
 
+    /**
+     * create loading dialog
+     *
+     * @param context
+     * @param title   The title of the dialog
+     * @param content The Message of the dialog
+     * @return
+     */
     public static MaterialDialog createLoadingDialog(Context context, int title, int content) {
         return new MaterialDialog.Builder(context)
                 .title(title)
@@ -20,6 +28,14 @@ public final class DialogUtils {
                 .build();
     }
 
+    /**
+     * create dilaog that has list of items and single choice
+     * @param context
+     * @param title The title of the dialog
+     * @param content The Message of the dialog
+     * @param callback Callback for on Item clicked in the list
+     * @return
+     */
     public static MaterialDialog createListDialog(Context context, int title, List<Provider> content,
                                                   MaterialDialog.ListCallback callback) {
         return new MaterialDialog.Builder(context)

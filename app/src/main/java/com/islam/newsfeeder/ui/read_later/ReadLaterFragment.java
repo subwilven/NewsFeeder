@@ -85,6 +85,11 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
     }
 
 
+    /**
+     * open the browser to authorize with getpocket
+     *
+     * @param code The request token
+     */
     private void launchBrowser(String code) {
         String stringUri = "https://getpocket.com/auth/authorize?request_token="
                 + code + "&redirect_uri=" + redirectUri;
@@ -99,6 +104,10 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
     }
 
 
+    /**
+     * called when sign in button has been taped
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         loadingDialog.show();
@@ -116,6 +125,10 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
         });
     }
 
+    /**
+     * called when user tap on any article on the list so when open it's url
+     * @param item The Clicked article
+     */
     @Override
     public void onItemClicked(ReadLaterArticle item) {
         ActivityUtils.openCustomTab(getContext(),

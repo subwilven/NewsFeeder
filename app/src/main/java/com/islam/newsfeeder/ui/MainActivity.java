@@ -68,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
             scheduleAlarm();
     }
 
+    /**
+     * replace the fragment when bottom navigation bar in clicked
+     *
+     * @param fragmentClass The fragment Which should be loaded
+     * @param tag           The Tag or the fragment
+     */
     public void replaceFragment(Class<?> fragmentClass, String tag) {
 
         //if it the same running fragment do nothing
@@ -90,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).commit();
     }
 
+    /**
+     * called if the we have not scheduled any alarms yet to fire syncing database service
+     */
     public void scheduleAlarm() {
 
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
@@ -105,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 INTERVAL_UPDATE_DATABASE,//repeat every 10min
                 pIntent);
 
+        //set that the alarm manager has been set successfully so we don't set it again
         PreferenceUtils.saveIsAlarmManagerRunning(this, true);
     }
 

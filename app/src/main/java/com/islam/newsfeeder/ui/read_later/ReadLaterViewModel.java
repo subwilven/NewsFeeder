@@ -14,9 +14,14 @@ public class ReadLaterViewModel extends ViewModel {
 
 
     private final PocketRepository mRepository;
-    private LiveData<String> onRequestTokenReceived;
+
+    //to determine to show sing in button or not if the user has not signed in bfore
     private final MutableLiveData<Boolean> shouldShowPocketSignInLayout = new MutableLiveData<>();
+    //fired  request token api has been called and the code has been fetched so we can open the getpocket authentication
+    private LiveData<String> onRequestTokenReceived;
+
     private MutableLiveData<Boolean> onAccessTokenReceived = new MutableLiveData<>();
+
     private LiveData<Resource<List<ReadLaterArticle>>> articlesList;
 
     public ReadLaterViewModel(PocketRepository mArticleRepository) {

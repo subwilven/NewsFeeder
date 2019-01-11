@@ -57,10 +57,18 @@ public final class ActivityUtils {
         }
     }
 
+    /**
+     * Open the browser with given url
+     *
+     * @param context
+     * @param color   The color of browser toolbar
+     * @param url     The url of the article
+     */
     public static void openCustomTab(Context context, int color, String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
 
         builder.setToolbarColor(color);
+        //set start and exit animations
         builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
         builder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
 
@@ -69,8 +77,14 @@ public final class ActivityUtils {
     }
 
 
+    /**
+     * convert the string time to different format like ( 1 hour ago ,  yesterday ...etc)
+     * @param time The string time fetched from the api
+     * @return
+     */
     public static String calculateTimeDiff(String time) {
         try {
+            //get the first 11 chars ti match the format yyyy-MM-dd
             time = time.substring(0, 10);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = dateFormat.parse(time);

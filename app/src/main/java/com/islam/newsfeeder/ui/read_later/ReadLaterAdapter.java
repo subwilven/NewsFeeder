@@ -46,11 +46,15 @@ public class ReadLaterAdapter extends RecyclerView.Adapter<ReadLaterAdapter.View
                     article.getImageUrl(),
                     cornersTransformation);
         else
+            //if the article has no image show the placeholder
             holder.imageView.setImageResource(R.drawable.placeholder);
+
+        // if the article has no title show the given title (the title that has been send once the user saved the article)
         if (!article.getTitle().isEmpty())
             holder.titleTextView.setText(article.getTitle());
         else
             holder.titleTextView.setText(article.getGivenTitle());
+
         holder.desciptionTextView.setText(article.getDescription());
     }
 

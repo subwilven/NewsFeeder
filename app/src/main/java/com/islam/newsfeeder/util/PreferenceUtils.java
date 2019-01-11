@@ -41,6 +41,12 @@ public final class PreferenceUtils {
         return getPocketSharedPreference(context).getString(key, null);
     }
 
+    /**
+     * save list of providers as json object in one field
+     *
+     * @param context
+     * @param providers
+     */
     public static void saveProvidersInShared(Context context, List<Provider> providers) {
         SharedPreferences sharedPreferences = getProviderSharedPreference(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -57,6 +63,11 @@ public final class PreferenceUtils {
         editor.apply();
     }
 
+    /**
+     * Retrieve stored providers form the shared and if the shared is empty get the three default providers
+     * @param context
+     * @return list of news providers (sources)
+     */
     public static List<Provider> getProvidersFromShared(Context context) {
         SharedPreferences sharedPreferences = getProviderSharedPreference(context);
         String data = sharedPreferences.getString(KEY_PROVIDERS, null);
@@ -64,6 +75,7 @@ public final class PreferenceUtils {
 
         if (data != null) {
             Gson gson = new Gson();
+            // retrieve the stored string and split it into array (each is one provider)
             ArrayList<String> objStrings =
                     new ArrayList<>(Arrays.asList(TextUtils.split(data, "‚‗‚")));
 
@@ -82,16 +94,30 @@ public final class PreferenceUtils {
 
     }
 
+    /**
+     * called when we have successfully set the alarm manager
+     * @param context
+     * @param b
+     */
     public static void saveIsAlarmManagerRunning(Context context, boolean b) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putBoolean(KEY_JOB_SCHEDULER_STATUS, b);
         editor.apply();
     }
 
+    /**
+     * check if we have scheduled the alarm manager before or not
+     * @param context
+     * @return true if scheduled before
+     */
     public static boolean getIsAlarmRunning(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_JOB_SCHEDULER_STATUS, false);
     }
 
+    /**
+     * called when no any providers stored in the shared preference
+     * @return The three default news providers
+     */
     private static ArrayList<Provider> getDefaultProviders() {
         ArrayList<Provider> providers = new ArrayList<>();
         providers.add(new Provider("bbc-news", "BBC News", true));

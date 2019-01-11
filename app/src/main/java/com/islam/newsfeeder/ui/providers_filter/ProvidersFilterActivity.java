@@ -145,6 +145,7 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         newChip.setTag(index);
         newChip.setChecked(provider.isChecked());
         newChip.setOnCheckedChangeListener(ProvidersFilterActivity.this);
+        //check if the last chip added if yes remove it then add the new provider chip then add the lat chip again
         if (mViewModel.isTheLastChipIsAdded()) {
             chipGroup.removeView(addProviderChip);
             chipGroup.addView(newChip);
