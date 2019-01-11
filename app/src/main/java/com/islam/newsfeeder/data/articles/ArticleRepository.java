@@ -26,8 +26,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ArticleRepository {
 
@@ -90,11 +88,8 @@ public class ArticleRepository {
     }
 
     public void fetchArticles(CallBacks.NetworkCallBack callBack) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_NEWS_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        ArticleApi articleApi = retrofit.create(ArticleApi.class);
+        ArticleApi articleApi = NetworkUtils.getArticleApi();
         List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());
         String sources = convertProvidersToString(providers);
 
@@ -132,11 +127,8 @@ public class ArticleRepository {
         if (!NetworkUtils.haveNetworkConnection(MyApplication.getInstance().getApplicationContext())) {
             callBack.onFailed(Constants.ERROR_NO_CONNECTION);
         }
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_NEWS_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        ArticleApi articleApi = retrofit.create(ArticleApi.class);
+        ArticleApi articleApi = NetworkUtils.getArticleApi();
         Call<ProvidersResponse> connection = articleApi.getProviders(
                 "sources",
                 BuildConfig.NEWS_API_KEY);

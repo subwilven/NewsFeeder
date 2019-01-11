@@ -12,7 +12,6 @@ import com.islam.newsfeeder.POJO.network.PocketResponse;
 import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.CallBacks;
-import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.NetworkUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
@@ -22,8 +21,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.islam.newsfeeder.util.Constants.ERROR_NO_CONNECTION;
 import static com.islam.newsfeeder.util.Constants.KEY_ACCESS_TOKEN;
@@ -53,11 +50,7 @@ public class PocketRepository {
     public LiveData<String> login() {
         MutableLiveData<String> result = new MutableLiveData<>();
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        PocketApi articleApi = retrofit.create(PocketApi.class);
+        PocketApi articleApi = NetworkUtils.getPocketApi();
         Call<PocketResponse.RequestTokenResponse> connection = articleApi.requestToken(
                 BuildConfig.KEY_POCKET_CONSUMER, redirectUri);
 
@@ -82,12 +75,8 @@ public class PocketRepository {
 
     public void getAccessToken() {
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         String requestToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_REQUEST_TOKEN);
-        PocketApi pocketApi = retrofit.create(PocketApi.class);
+        PocketApi pocketApi = NetworkUtils.getPocketApi();
         Call<PocketResponse.AccessTokenResponse> token
                 = pocketApi.getAccessToken(BuildConfig.KEY_POCKET_CONSUMER, requestToken);
 
@@ -117,12 +106,9 @@ public class PocketRepository {
             callBack.onFailed(ERROR_NO_CONNECTION);
             return;
         }
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
         String accessToken = PreferenceUtils.getPocketData(context, KEY_ACCESS_TOKEN);
-        PocketApi pocketApi = retrofit.create(PocketApi.class);
+        PocketApi pocketApi = NetworkUtils.getPocketApi();
 
         Call<PocketResponse.AddArticleResponse> token = pocketApi.
                 addArticleToReadLater(BuildConfig.KEY_POCKET_CONSUMER,
@@ -154,12 +140,9 @@ public class PocketRepository {
 
         } else {
             list.setValue(Resource.loading(null));
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
 
             String accessToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_ACCESS_TOKEN);
-            PocketApi pocketApi = retrofit.create(PocketApi.class);
+            PocketApi pocketApi = NetworkUtils.getPocketApi();
 
             Call<PocketResponse.SavedArticlesResponse> token = pocketApi.getReadLaterArticles(BuildConfig.KEY_POCKET_CONSUMER,
                     accessToken);
