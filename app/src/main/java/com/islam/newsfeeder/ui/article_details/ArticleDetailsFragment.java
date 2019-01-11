@@ -4,11 +4,9 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
@@ -125,7 +123,9 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
             @Override
             public void onChanged(@Nullable Boolean b) {
                 if (b)
-                    openCustomTab();
+                    ActivityUtils.openCustomTab(getContext(),
+                            mMutedColor,
+                            mViewModel.getArticleData().getValue().getArticleUrl());
             }
         });
 
@@ -137,16 +137,7 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
         });
     }
 
-    private void openCustomTab() {
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
 
-        builder.setToolbarColor(mMutedColor);
-        builder.setStartAnimations(getContext(), R.anim.slide_in_right, R.anim.slide_out_left);
-        builder.setExitAnimations(getContext(), R.anim.slide_in_left, R.anim.slide_out_right);
-
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(getContext(), Uri.parse(mViewModel.getArticleData().getValue().getArticleUrl()));
-    }
 
     @Override
     public void onClick(View view) {

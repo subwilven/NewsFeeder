@@ -15,6 +15,7 @@ import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
+import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
 
@@ -87,7 +88,9 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     @Override
     public void onItemClicked(ReadLaterArticle item) {
-
+        ActivityUtils.openCustomTab(getContext(),
+                0xFF333333,
+                item.getArticleUrl());
     }
 
     @Override

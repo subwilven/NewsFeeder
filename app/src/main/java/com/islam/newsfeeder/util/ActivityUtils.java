@@ -1,5 +1,8 @@
 package com.islam.newsfeeder.util;
 
+import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,6 +56,18 @@ public final class ActivityUtils {
             view.setVisibility(v);
         }
     }
+
+    public static void openCustomTab(Context context, int color, String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+
+        builder.setToolbarColor(color);
+        builder.setStartAnimations(context, R.anim.slide_in_right, R.anim.slide_out_left);
+        builder.setExitAnimations(context, R.anim.slide_in_left, R.anim.slide_out_right);
+
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(context, Uri.parse(url));
+    }
+
 
     public static String calculateTimeDiff(String time) {
         try {
