@@ -10,12 +10,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;
+import com.islam.newsfeeder.util.DialogUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
 
@@ -30,6 +32,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
     private ReadLaterViewModel mViewModel;
     private View signInPocketLayout;
     private ReadLaterAdapter mAdapter;
+    private MaterialDialog loadingDialog;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
         signInPocketLayout = view.findViewById(R.id.pocket_sign_in);
         signInPocketLayout.findViewById(R.id.go_to_pocket).setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        loadingDialog = DialogUtils.createLoadingDialog(getContext(), R.string.loading, R.string.please_wait);
 
         mAdapter = new ReadLaterAdapter(this);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -96,6 +101,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+        loadingDialog.show();
         mViewModel.loginAtPocket();
         observeReqestToken();
     }
@@ -105,6 +111,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
             @Override
             public void onChanged(@Nullable String code) {
                 launchBrowser(code);
+                loadingDialog.dismiss();
             }
         });
     }
