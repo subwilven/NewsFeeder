@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * called if the we have not scheduled any alarms yet to fire syncing database service
      */
+    // JobScheduler and WorkManager cannot be used because the minimum interval is 15 min
     public void scheduleAlarm() {
 
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
@@ -109,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC,
-                System.currentTimeMillis() + INTERVAL_UPDATE_DATABASE,// fire arter 10 min from now
+        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime() + INTERVAL_UPDATE_DATABASE,// fire arter 10 min from now
                 INTERVAL_UPDATE_DATABASE,//repeat every 10min
                 pIntent);
 

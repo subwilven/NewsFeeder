@@ -19,8 +19,7 @@
             android:exported="true" />
 
         <receiver
-            android:name=".recievers.AlarmReceiver"
-            android:process=":remote" />
+            android:name=".recievers.AlarmReceiver"></receiver>
 
         <activity
             android:name=".ui.MainActivity"
