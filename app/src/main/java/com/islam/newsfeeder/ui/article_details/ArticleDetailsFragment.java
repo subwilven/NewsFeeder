@@ -2,6 +2,7 @@ package com.islam.newsfeeder.ui.article_details;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,12 +22,16 @@ import android.widget.Toast;
 
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.ui.MainActivity;
 import com.islam.newsfeeder.util.ActivityUtils;
+import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import static com.islam.newsfeeder.util.Constants.BUNDLE_ARTICLE;
+import static com.islam.newsfeeder.util.Constants.BUNDLE_OPEN_REAL_LATER_FRAGMENT;
+import static com.islam.newsfeeder.util.Constants.KEY_ACCESS_TOKEN;
 
 public class ArticleDetailsFragment extends Fragment implements View.OnClickListener {
 
@@ -138,7 +143,6 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
     }
 
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -146,8 +150,15 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
                 mViewModel.setShouldOpenCustomTab(true);
                 break;
             case R.id.fab_read_later:
-                mViewModel.addArticleToReadLater();
-                Toast.makeText(getContext(), getString(R.string.added_to_real_later), Toast.LENGTH_SHORT).show();
+                if (PreferenceUtils.getPocketData(getContext(), KEY_ACCESS_TOKEN) != null) {
+                    mViewModel.addArticleToReadLater();
+                    Toast.makeText(getContext(), getString(R.string.added_to_real_later), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.you_must_sign_in_frist), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), MainActivity.class);
+                    intent.putExtra(BUNDLE_OPEN_REAL_LATER_FRAGMENT, true);
+                    startActivity(intent);
+                }
                 break;
         }
 

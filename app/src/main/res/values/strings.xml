@@ -20,4 +20,5 @@
     <string name="read_more">Read more</string>
     <string name="added_to_real_later">Successfully added  to read later</string>
     <string name="no_results">No results</string>
+    <string name="you_must_sign_in_frist">You must sign in first</string>
 </resources>

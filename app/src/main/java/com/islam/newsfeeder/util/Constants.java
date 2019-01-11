@@ -21,6 +21,7 @@ public final class Constants {
     public static final String KEY_ACCESS_TOKEN = "access_token";
 
     public static final String BUNDLE_ARTICLE = "article";
+    public static final String BUNDLE_OPEN_REAL_LATER_FRAGMENT = "openReadLaterArticles";
 
     public static final int INTERVAL_UPDATE_DATABASE = 1000 * 60 * 10;
 

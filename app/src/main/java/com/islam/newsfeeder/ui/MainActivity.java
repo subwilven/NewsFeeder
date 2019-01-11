@@ -17,12 +17,13 @@ import com.islam.newsfeeder.ui.articles_list.ArticlesListFragment;
 import com.islam.newsfeeder.ui.read_later.ReadLaterFragment;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
+import static com.islam.newsfeeder.util.Constants.BUNDLE_OPEN_REAL_LATER_FRAGMENT;
 import static com.islam.newsfeeder.util.Constants.INTERVAL_UPDATE_DATABASE;
 
 public class MainActivity extends AppCompatActivity {
 
     private static String FRAGMENT_CURRENT = "";
-
+    BottomNavigationView navigation;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_read_later:
                     replaceFragment(ReadLaterFragment.class, null);
                     return true;
             }
@@ -39,18 +40,28 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // if the user tried to save article to read later and he hasn't signed in yet bring him to the the second fragment
+        if (intent.getBooleanExtra(BUNDLE_OPEN_REAL_LATER_FRAGMENT, false)) {
+            navigation.setSelectedItemId(R.id.navigation_read_later);
+            replaceFragment(ReadLaterFragment.class, null);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //if this the first launch
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
             replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
+        }
         //check if the job has scheduled before
         boolean isRunning = PreferenceUtils.getIsAlarmRunning(this);
         if (!isRunning)
