@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
-import android.widget.Button;
 
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
@@ -17,25 +16,28 @@ import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;
+import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 import java.util.List;
 
+import static com.islam.newsfeeder.util.Constants.KEY_ACCESS_TOKEN;
 import static com.islam.newsfeeder.util.Constants.redirectUri;
 
 public class ReadLaterFragment extends BaseFragmentList implements View.OnClickListener,
         CallBacks.AdapterCallBack<ReadLaterArticle>, SwipeRefreshLayout.OnRefreshListener {
 
-    ReadLaterViewModel mViewModel;
-    Button gotoPocketButton;
-    ReadLaterAdapter mAdapter;
+    private ReadLaterViewModel mViewModel;
+    private View signInPocketLayout;
+    private ReadLaterAdapter mAdapter;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ReadLaterViewModel.class);
-        mViewModel.init();
-        gotoPocketButton = view.findViewById(R.id.go_to_pocket);
-        gotoPocketButton.setOnClickListener(this);
+        String accessToken = PreferenceUtils.getPocketData(getContext(), KEY_ACCESS_TOKEN);
+        mViewModel.init(accessToken);
+        signInPocketLayout = view.findViewById(R.id.pocket_sign_in);
+        signInPocketLayout.findViewById(R.id.go_to_pocket).setOnClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mAdapter = new ReadLaterAdapter(this);
@@ -46,6 +48,27 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
     @Override
     protected void setUpObservers() {
 
+        mViewModel.getOnAccessTokenReceived().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                observeTheArticles();
+                mViewModel.setShouldShowPocketSignInLayout(false);
+            }
+        });
+
+        mViewModel.getShouldShowPocketSignInLayout().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean)
+                    signInPocketLayout.setVisibility(View.VISIBLE);
+                else
+                    signInPocketLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void observeTheArticles() {
+        mViewModel.loadArticles();
         mViewModel.getArticlesList().observe(getViewLifecycleOwner(), new Observer<Resource<List<ReadLaterArticle>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<ReadLaterArticle>> readLaterArticles) {

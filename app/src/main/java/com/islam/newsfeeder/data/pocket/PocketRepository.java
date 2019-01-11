@@ -33,6 +33,7 @@ import static com.islam.newsfeeder.util.Constants.redirectUri;
 public class PocketRepository {
 
     private static PocketRepository INSTANCE = null;
+    MutableLiveData<Boolean> accessTokenListner;
 
     private PocketRepository() {
     }
@@ -96,6 +97,9 @@ public class PocketRepository {
                 if (response.isSuccessful()) {
                     Context context = MyApplication.getInstance().getApplicationContext();
                     PreferenceUtils.savePocketData(context, KEY_ACCESS_TOKEN, response.body().accessToken);
+                    // to tell the fragment to start listen on articles live data
+                    if (accessTokenListner != null)
+                        accessTokenListner.setValue(true);
                 }
             }
 
@@ -143,30 +147,39 @@ public class PocketRepository {
 
 
     public LiveData<Resource<List<ReadLaterArticle>>> fetchReadLaterArticles() {
-
         MutableLiveData<Resource<List<ReadLaterArticle>>> list = new MutableLiveData<>();
-        list.setValue(Resource.loading(null));
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        String accessToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_ACCESS_TOKEN);
-        PocketApi pocketApi = retrofit.create(PocketApi.class);
+        if (!NetworkUtils.haveNetworkConnection(MyApplication.getInstance().getApplicationContext())) {
+            list.setValue(Resource.success(null, false));
 
-        Call<PocketResponse.SavedArticlesResponse> token = pocketApi.getReadLaterArticles(BuildConfig.KEY_POCKET_CONSUMER,
-                accessToken);
+        } else {
+            list.setValue(Resource.loading(null));
+            Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-        token.enqueue(new Callback<PocketResponse.SavedArticlesResponse>() {
-            @Override
-            public void onResponse(Call<PocketResponse.SavedArticlesResponse> call, Response<PocketResponse.SavedArticlesResponse> response) {
-                list.setValue(Resource.success(new ArrayList(response.body().list.values()), true));
-            }
+            String accessToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_ACCESS_TOKEN);
+            PocketApi pocketApi = retrofit.create(PocketApi.class);
 
-            @Override
-            public void onFailure(Call<PocketResponse.SavedArticlesResponse> call, Throwable t) {
+            Call<PocketResponse.SavedArticlesResponse> token = pocketApi.getReadLaterArticles(BuildConfig.KEY_POCKET_CONSUMER,
+                    accessToken);
 
-            }
-        });
+            token.enqueue(new Callback<PocketResponse.SavedArticlesResponse>() {
+                @Override
+                public void onResponse(Call<PocketResponse.SavedArticlesResponse> call, Response<PocketResponse.SavedArticlesResponse> response) {
+                    list.setValue(Resource.success(new ArrayList(response.body().list.values()), true));
+                }
+
+                @Override
+                public void onFailure(Call<PocketResponse.SavedArticlesResponse> call, Throwable t) {
+
+                }
+            });
+        }
         return list;
+    }
+
+    public void setAccessTokenListner(MutableLiveData<Boolean> accessTokenListner) {
+        this.accessTokenListner = accessTokenListner;
     }
 }

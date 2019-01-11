@@ -22,7 +22,9 @@
             android:name=".recievers.AlarmReceiver"
             android:process=":remote" />
 
-        <activity android:name=".ui.MainActivity">
+        <activity
+            android:name=".ui.MainActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,9 +43,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="pocketapp83166" />
-                <data
-                    android:host="open.my.app"
-                    android:scheme="pocketapp83166" />
             </intent-filter>
         </activity>
     </application>
