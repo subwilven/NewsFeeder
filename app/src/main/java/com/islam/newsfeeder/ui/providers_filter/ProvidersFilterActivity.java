@@ -41,6 +41,7 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
 
         getSupportActionBar().setTitle(R.string.sources);
         chipGroup = findViewById(R.id.chipGroup);
+        findViewById(R.id.fab_add_provider).setOnClickListener(this);
 
         setUpProviders();
     }
@@ -127,32 +128,31 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
             addNewChip(providers.get(i), i);
         }
 
-        //set the last chip to allow user  to add more providers
-        addProviderChip = new Chip(ProvidersFilterActivity.this);
-        addProviderChip.setChipIcon(getDrawable(R.drawable.ic_add_black_24dp));
-        addProviderChip.setOnClickListener(this);
-        addProviderChip.setText(getString(R.string.add_source));
-        chipGroup.addView(addProviderChip);
-        mViewModel.setTheLastChipIsAdded(true);
+    }
+
+    public Chip createChipView() {
+        Chip chip = new Chip(ProvidersFilterActivity.this);
+        chip.setCheckedIconVisible(false);
+        chip.setMinHeight(80);
+        chip.setChipStrokeWidth(3f);
+        chip.setTextSize(16f);
+        chip.setChipCornerRadius(50);
+        chip.setChipStrokeColorResource(R.color.colorPrimary);
+        chip.setChipBackgroundColor(getResources().getColorStateList(R.color.chip_background, getTheme()));
+        chip.setTextColor(getResources().getColorStateList(R.color.chip_text, getTheme()));
+
+        chip.setCheckable(true);
+        return chip;
     }
 
     private void addNewChip(Provider provider, int index) {
-        Chip newChip = new Chip(ProvidersFilterActivity.this);
-
+        Chip newChip = createChipView();
         newChip.setText(provider.getName());
-        newChip.setCheckable(true);
         //set the index of provider in the tag to retrive it on click
         newChip.setTag(index);
         newChip.setChecked(provider.isChecked());
         newChip.setOnCheckedChangeListener(ProvidersFilterActivity.this);
-        //check if the last chip added if yes remove it then add the new provider chip then add the lat chip again
-        if (mViewModel.isTheLastChipIsAdded()) {
-            chipGroup.removeView(addProviderChip);
-            chipGroup.addView(newChip);
-            chipGroup.addView(addProviderChip);
-        } else {
-            chipGroup.addView(newChip);
-        }
+        chipGroup.addView(newChip);
 
     }
 

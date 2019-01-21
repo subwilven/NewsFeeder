@@ -36,8 +36,6 @@ public class ProvidersFilterViewModel extends ViewModel {
 
     //hold all the providers from the server to allow user to add to his providers list
     private List<Provider> allProvidersList;
-    // to determine to remove the last one or not when try to add new provider (the last one should be that on which allow user to add more)
-    private boolean isTheLastChipAdded;
 
     public ProvidersFilterViewModel(ArticleRepository mRepository) {
         this.mRepository = mRepository;
@@ -140,14 +138,6 @@ public class ProvidersFilterViewModel extends ViewModel {
 
     public LiveData<Provider> getOnProviderAdded() {
         return onProviderAdded;
-    }
-
-    public boolean isTheLastChipIsAdded() {
-        return isTheLastChipAdded;
-    }
-
-    public void setTheLastChipIsAdded(boolean theLastChipIsAdded) {
-        this.isTheLastChipAdded = theLastChipIsAdded;
     }
 
     public LiveData<Boolean> getShowToastNoConnection() {
