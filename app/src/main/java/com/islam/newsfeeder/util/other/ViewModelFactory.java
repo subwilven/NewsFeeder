@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.data.articles.ArticleService;
 import com.islam.newsfeeder.data.pocket.PocketRepository;
 import com.islam.newsfeeder.ui.article_details.ArticlesDetailsViewModel;
 import com.islam.newsfeeder.ui.articles_list.ArticlesViewModel;
@@ -33,7 +34,8 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             synchronized (ViewModelFactory.class) {
                 if (INSTANCE == null) {
                     INSTANCE = new ViewModelFactory(
-                            ArticleRepository.getInstance(NewsFeederDatabase.getInstance().articleDao())
+                            ArticleRepository.getInstance(ArticleService.getInstance(),
+                                    NewsFeederDatabase.getInstance().articleDao())
                             , PocketRepository.getInstance());
                 }
             }

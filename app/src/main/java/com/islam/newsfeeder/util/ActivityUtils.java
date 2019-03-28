@@ -3,10 +3,12 @@ package com.islam.newsfeeder.util;
 import android.content.Context;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.util.other.RoundedCornersTransformation;
 import com.squareup.picasso.Picasso;
@@ -15,7 +17,9 @@ import com.squareup.picasso.Target;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public final class ActivityUtils {
     private ActivityUtils() {
@@ -95,5 +99,18 @@ public final class ActivityUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+
+    public static String convertProvidersToString(List<Provider> providers) {
+        List<String> resources = new ArrayList<>();
+        for (int i = 0; i < providers.size(); i++) {
+            Provider provider = providers.get(i);
+            if (provider.isChecked()) {
+                resources.add(provider.getSourceId());
+            }
+        }
+        return TextUtils.join(",", resources);
     }
 }

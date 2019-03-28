@@ -21,6 +21,7 @@ import com.islam.newsfeeder.POJO.network.ArticleResponse;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.data.articles.ArticleService;
 import com.islam.newsfeeder.util.CallBacks;
 
 import static com.islam.newsfeeder.util.Constants.ID_FOREGROUND_SERVICE;
@@ -42,32 +43,32 @@ public class DbUpdateJobService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         SystemClock.sleep(7 * 1000);
-        ArticleRepository articleRepository = ArticleRepository.getInstance(NewsFeederDatabase.getInstance().articleDao());
-        articleRepository.fetchArticles(new CallBacks.NetworkCallBack<ArticleResponse>() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            public void onSuccess(ArticleResponse response) {
-                new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... voids) {
-                        articleRepository.saveArticlesToDataBase(response.getData());
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-                        super.onPostExecute(aVoid);
-                        stopForegroundService();
-                    }
-                }.execute();
-
-            }
-
-            @Override
-            public void onFailed(String error) {
-
-            }
-        });
+//        ArticleService articleService = ArticleService.getInstance();
+//        articleService.fetchArticles(new CallBacks.NetworkCallBack<ArticleResponse>() {
+//            @SuppressLint("StaticFieldLeak")
+//            @Override
+//            public void onSuccess(ArticleResponse response) {
+//                new AsyncTask<Void, Void, Void>() {
+//                    @Override
+//                    protected Void doInBackground(Void... voids) {
+//                        articleRepository.saveArticlesToDataBase(response.getData());
+//                        return null;
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(Void aVoid) {
+//                        super.onPostExecute(aVoid);
+//                        stopForegroundService();
+//                    }
+//                }.execute();
+//
+//            }
+//
+//            @Override
+//            public void onFailed(String error) {
+//
+//            }
+//        });
     }
 
     private void startForegroundService() {

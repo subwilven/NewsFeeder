@@ -20,9 +20,6 @@ public class Provider implements Serializable {
         this.isChecked = isChecked;
     }
 
-    public Provider() {
-    }
-
     public String getSourceId() {
         return sourceId;
     }

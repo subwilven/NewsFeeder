@@ -6,6 +6,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -65,6 +66,18 @@ public class Article implements Serializable {
         this.publishedAt = publishedAt;
         this.content = content;
     }
+
+    public static DiffUtil.ItemCallback<Article> diffUtil = new DiffUtil.ItemCallback<Article>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Article article, @NonNull Article t1) {
+            return false;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Article article, @NonNull Article t1) {
+            return false;
+        }
+    };
 
     public Provider getProvider() {
         return provider;

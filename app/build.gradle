@@ -26,11 +26,11 @@ android {
         it.buildConfigField 'String', 'NEWS_API_KEY', '"b7d4d6334644451596939d1821187aba"'
         it.buildConfigField 'String', 'KEY_POCKET_CONSUMER', '"83166-8df67cfe1935c4f5d24e01cb"'
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
@@ -38,21 +38,21 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:customtabs:28.0.0'
     implementation 'com.android.support:palette-v7:28.0.0'
-
+    implementation 'com.android.support:design:28.0.0'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
     //network
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //MVVM Pattern
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation "android.arch.paging:runtime:1.0.1"
     implementation 'android.arch.persistence.room:runtime:1.1.1'
-    implementation 'com.android.support:design:28.0.0'
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    annotationProcessor  "android.arch.persistence.room:compiler:1.1.1"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

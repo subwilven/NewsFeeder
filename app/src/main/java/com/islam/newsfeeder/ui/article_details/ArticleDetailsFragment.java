@@ -42,7 +42,6 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
     private TextView publishedAtTextView;
     private ImageView imageView;
     private int mMutedColor = 0xFF333333;
-    FloatingActionButton readLaterFab;
 
     private final Target target = new Target() {
         @Override
@@ -102,8 +101,9 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
         authorTextView = view.findViewById(R.id.article_details_author);
         publishedAtTextView = view.findViewById(R.id.article_details_published_at);
         imageView = view.findViewById(R.id.article_details_image);
-        readLaterFab = view.findViewById(R.id.fab_read_later);
-        readLaterFab.setOnClickListener(this);
+
+        //set on click listeners
+        view.findViewById(R.id.fab_read_later).setOnClickListener(this);
         view.findViewById(R.id.article_details_btn_read_more).setOnClickListener(this);
 
         setUpObservers();

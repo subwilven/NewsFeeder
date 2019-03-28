@@ -2,6 +2,7 @@ package com.islam.newsfeeder.ui.articles_list;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.POJO.NetworkState;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
@@ -31,13 +33,13 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
         CallBacks.AdapterCallBack<Article>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     public final static String TAG = "ArticlesListFragment";
-    ArticlesViewModel mViewModel;
-    ProvidersAdapter mAdapter;
+    private ArticlesViewModel mViewModel;
+    private ArticlesAdapter mAdapter;
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
         mViewModel = ViewModelProviders.of(getActivity(), ViewModelFactory.getInstance()).get(ArticlesViewModel.class);
-        mAdapter = new ProvidersAdapter(this);
+        mAdapter = new ArticlesAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -46,13 +48,17 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
 
     @Override
     protected void setUpObservers() {
-        mViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<Resource<Map<String, List<Article>>>>() {
+        mViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<PagedList<Article>>() {
             @Override
-            public void onChanged(@Nullable Resource<Map<String, List<Article>>> listResource) {
-                updateScreenStatus(getScreenStatus(listResource));
-                if (listResource.getData() != null && listResource.getData().size() > 0) {
-                    mAdapter.setData(listResource.getData());
-                }
+            public void onChanged(@Nullable PagedList<Article> pagedListResource) {
+                mAdapter.submitList(pagedListResource);
+            }
+        });
+
+        mViewModel.getNetworkState().observe(getViewLifecycleOwner(), new Observer<NetworkState>() {
+            @Override
+            public void onChanged(@Nullable NetworkState networkState) {
+                mAdapter.setNetworkState(networkState);
             }
         });
     }
@@ -104,11 +110,8 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
     }
 
     @Override
-    public void onItemClicked(Article item) {
-        Intent intent = new Intent(getContext(), ArticleDetailsActivity.class);
-
-        intent.putExtra(BUNDLE_ARTICLE, item);
-        startActivity(intent);
+    public void onItemClicked(Article article) {
+        ArticleDetailsActivity.launchActivity(getContext(),article);
     }
 
     @Override

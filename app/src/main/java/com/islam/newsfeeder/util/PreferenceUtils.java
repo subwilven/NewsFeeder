@@ -14,8 +14,8 @@ import java.util.List;
 
 import static com.islam.newsfeeder.util.Constants.KEY_JOB_SCHEDULER_STATUS;
 import static com.islam.newsfeeder.util.Constants.KEY_PROVIDERS;
-import static com.islam.newsfeeder.util.Constants.SHARE_POCKET_file;
-import static com.islam.newsfeeder.util.Constants.SHARE_PROVIDERS_file;
+import static com.islam.newsfeeder.util.Constants.SHARED_POCKET_file;
+import static com.islam.newsfeeder.util.Constants.SHARED_PROVIDERS_file;
 
 public final class PreferenceUtils {
 
@@ -23,11 +23,11 @@ public final class PreferenceUtils {
     }
 
     public static SharedPreferences getProviderSharedPreference(Context context) {
-        return context.getSharedPreferences(SHARE_PROVIDERS_file, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(SHARED_PROVIDERS_file, Context.MODE_PRIVATE);
     }
 
     public static SharedPreferences getPocketSharedPreference(Context context) {
-        return context.getSharedPreferences(SHARE_POCKET_file, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(SHARED_POCKET_file, Context.MODE_PRIVATE);
     }
 
     public static void savePocketData(Context context, String key, String value) {

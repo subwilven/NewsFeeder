@@ -13,6 +13,8 @@ public interface ArticleApi {
     @GET("{path}")
     Call<ArticleResponse> getArticles(
             @Path(value = "path") String path,
+            @Query(value = "pageSize") int pageSize,
+            @Query(value = "page") int pageNumber,
             @Query(value = "sources", encoded = true) String sources,
             @Query("apiKey") String key);
 

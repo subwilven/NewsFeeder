@@ -20,12 +20,4 @@ public abstract class ApiResponse<V> {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public String getTotalResults() {
-        return totalResults;
-    }
-
-    public void setTotalResults(String totalResults) {
-        this.totalResults = totalResults;
-    }
 }

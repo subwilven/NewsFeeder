@@ -77,7 +77,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersAdapter.View
         }
 
         public void setRecyclerViewData(List<Article> articles) {
-            articlesAdapter.setData(articles);
+          //  articlesAdapter.submitList(articles);
         }
 
         @Override
