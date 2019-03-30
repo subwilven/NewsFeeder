@@ -27,8 +27,8 @@ public final class Constants {
 
     public static final int ID_FOREGROUND_SERVICE = 101;
 
-    public static final int PAGE_SIZE_DATABASE = 10;
-    public static final int PAGE_SIZE_NETWORK = 50;
+    public static final int PAGE_SIZE_DATABASE = 20;
+    public static final int PAGE_SIZE_NETWORK = 20;
 
     public static final String NOTIFICATION_CHANNEL_ID = "com.islam.newsfeeder";
     public static final String NOTIFICATION_CHANNEL_NAME = "Sync";

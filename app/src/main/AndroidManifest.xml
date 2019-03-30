@@ -16,10 +16,9 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".services.DbUpdateJobService"
-            android:exported="true" />
+            android:exported="false" />
 
-        <receiver
-            android:name=".recievers.AlarmReceiver"></receiver>
+        <receiver android:name=".recievers.AlarmReceiver" />
 
         <activity
             android:name=".ui.MainActivity"

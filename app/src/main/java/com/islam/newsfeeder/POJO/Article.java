@@ -70,7 +70,7 @@ public class Article implements Serializable {
     public static DiffUtil.ItemCallback<Article> diffUtil = new DiffUtil.ItemCallback<Article>() {
         @Override
         public boolean areItemsTheSame(@NonNull Article article, @NonNull Article t1) {
-            return false;
+            return article.id == t1.id;
         }
 
         @Override

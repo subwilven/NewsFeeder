@@ -8,15 +8,8 @@ import android.arch.paging.PagedList;
 
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.NetworkState;
-import com.islam.newsfeeder.POJO.Provider;
-import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ArticlesViewModel extends ViewModel {
 
@@ -38,15 +31,8 @@ public class ArticlesViewModel extends ViewModel {
         if (mArticles != null) {
             return;
         }
+        mRepository.clearAllData();
         mArticles = mRepository.getArticles();
-        mArticles = Transformations.switchMap(shouldReload, new Function<Boolean, LiveData<PagedList<Article>>>() {
-            @Override
-            public LiveData<PagedList<Article>> apply(Boolean input) {
-                if (input)
-                    return mRepository.getArticles();
-                return mArticles;
-            }
-        });
         mNetworkState = mRepository.getNetworkState();
     }
 
@@ -59,6 +45,6 @@ public class ArticlesViewModel extends ViewModel {
     }
 
     public void reload() {
-        shouldReload.setValue(true);
+        mRepository.clearAllData();
     }
 }

@@ -23,7 +23,7 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
 
     //this used to set radius to the image
     private final RoundedCornersTransformation cornersTransformation =
-            new RoundedCornersTransformation(7, 0);
+            new RoundedCornersTransformation(32, 0);
     private final CallBacks.AdapterCallBack<Article> mCallBack;
     private NetworkState networkState;
 
@@ -58,6 +58,9 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
                         article.getImageUrl(),
                         cornersTransformation);
                 holder.titleTextView.setText(article.getTitle());
+                holder.autherTextView.setText(article.getAuthor());
+                holder.timeTextView.setText(ActivityUtils.calculateTimeDiff(article.getPublishedAt()));
+                holder.contentTextView.setText(article.getContent());
             }
         }
     }
@@ -99,12 +102,16 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView moviePosterImageView;
-        private final TextView titleTextView;
+        private final TextView titleTextView,contentTextView,timeTextView,autherTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             moviePosterImageView = itemView.findViewById(R.id.item_article_image);
             titleTextView = itemView.findViewById(R.id.item_article_title);
+            contentTextView = itemView.findViewById(R.id.item_article_content);
+            timeTextView = itemView.findViewById(R.id.item_article_time);
+            autherTextView = itemView.findViewById(R.id.item_article_auther);
+
             itemView.setOnClickListener(this);
         }
 

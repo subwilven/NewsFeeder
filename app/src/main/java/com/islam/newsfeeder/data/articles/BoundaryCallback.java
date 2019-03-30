@@ -17,7 +17,7 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
 
     private ArticleService mArticleService;
     private ArticleDao mArticleDao;
-    private MutableLiveData<NetworkState> mNetworkState = new MutableLiveData<>();
+    private MutableLiveData<NetworkState> mNetworkState;
 
     // keep the last requested page. When the request is successful, increment the page number.
     private int lastRequestedPage = 1;
@@ -25,10 +25,10 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
     // to avoid triggering multiple requests in the same time
     private boolean isRequestInProgress = false;
 
-
-    public BoundaryCallback(ArticleService articleService, ArticleDao articleDao) {
+    public BoundaryCallback(ArticleService articleService, ArticleDao articleDao,MutableLiveData<NetworkState> mNetworkState) {
         mArticleDao = articleDao;
         mArticleService = articleService;
+        this.mNetworkState =mNetworkState;
         mNetworkState.setValue(NetworkState.SUCCESS());
     }
 
@@ -37,6 +37,7 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
      */
     @Override
     public void onZeroItemsLoaded() {
+        lastRequestedPage = 1;
         requestAndSaveData();
     }
 
@@ -57,6 +58,13 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
         if (isRequestInProgress) return;
         mNetworkState.setValue(NetworkState.LOADING());
         isRequestInProgress = true;
+            fetchArticles();
+
+
+    }
+
+
+    private void fetchArticles() {
         mArticleService.fetchArticles(lastRequestedPage, new CallBacks.NetworkCallBack<List<Article>>() {
             @Override
             public void onSuccess(List<Article> items) {
@@ -80,7 +88,7 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
         });
     }
 
-    public LiveData<NetworkState> getNetworkState(){
-        return  mNetworkState;
+    public LiveData<NetworkState> getNetworkState() {
+        return mNetworkState;
     }
 }

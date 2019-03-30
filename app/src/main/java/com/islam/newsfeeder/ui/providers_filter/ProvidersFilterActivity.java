@@ -41,6 +41,7 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ProvidersFilterViewModel.class);
         mViewModel.init(PreferenceUtils.getProvidersFromShared(this));
 
+        getSupportActionBar().setElevation(0f);
         getSupportActionBar().setTitle(R.string.sources);
         chipGroup = findViewById(R.id.chipGroup);
         findViewById(R.id.fab_add_provider).setOnClickListener(this);
