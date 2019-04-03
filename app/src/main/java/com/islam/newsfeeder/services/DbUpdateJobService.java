@@ -42,33 +42,6 @@ public class DbUpdateJobService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        SystemClock.sleep(7 * 1000);
-//        ArticleService articleService = ArticleService.getInstance();
-//        articleService.fetchArticles(new CallBacks.NetworkCallBack<ArticleResponse>() {
-//            @SuppressLint("StaticFieldLeak")
-//            @Override
-//            public void onSuccess(ArticleResponse response) {
-//                new AsyncTask<Void, Void, Void>() {
-//                    @Override
-//                    protected Void doInBackground(Void... voids) {
-//                        articleRepository.saveArticlesToDataBase(response.getData());
-//                        return null;
-//                    }
-//
-//                    @Override
-//                    protected void onPostExecute(Void aVoid) {
-//                        super.onPostExecute(aVoid);
-//                        stopForegroundService();
-//                    }
-//                }.execute();
-//
-//            }
-//
-//            @Override
-//            public void onFailed(String error) {
-//
-//            }
-//        });
     }
 
     private void startForegroundService() {

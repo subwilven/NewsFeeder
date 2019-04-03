@@ -42,7 +42,7 @@ public class ReadLaterAdapter extends RecyclerView.Adapter<ReadLaterAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         ReadLaterArticle article = mArticleList.get(position);
         if (article.getImageUrl() != null && !article.getImageUrl().isEmpty())
-            ActivityUtils.loadImage(holder.imageView,
+            ActivityUtils.loadImage(holder.imageView,150,150,
                     article.getImageUrl(),
                     cornersTransformation);
         else

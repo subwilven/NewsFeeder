@@ -95,26 +95,6 @@ public final class PreferenceUtils {
     }
 
     /**
-     * called when we have successfully set the alarm manager
-     * @param context
-     * @param b
-     */
-    public static void saveIsAlarmManagerRunning(Context context, boolean b) {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putBoolean(KEY_JOB_SCHEDULER_STATUS, b);
-        editor.apply();
-    }
-
-    /**
-     * check if we have scheduled the alarm manager before or not
-     * @param context
-     * @return true if scheduled before
-     */
-    public static boolean getIsAlarmRunning(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(KEY_JOB_SCHEDULER_STATUS, false);
-    }
-
-    /**
      * called when no any providers stored in the shared preference
      * @return The three default news providers
      */

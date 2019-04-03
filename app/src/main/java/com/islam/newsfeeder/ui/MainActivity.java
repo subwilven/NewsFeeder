@@ -1,11 +1,7 @@
 package com.islam.newsfeeder.ui;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -13,13 +9,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.islam.newsfeeder.R;
-import com.islam.newsfeeder.recievers.AlarmReceiver;
+import com.islam.newsfeeder.services.UpdateDatabaseWorker;
 import com.islam.newsfeeder.ui.articles_list.ArticlesListFragment;
 import com.islam.newsfeeder.ui.read_later.ReadLaterFragment;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
+import java.util.concurrent.TimeUnit;
+
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import static com.islam.newsfeeder.util.Constants.BUNDLE_OPEN_REAL_LATER_FRAGMENT;
-import static com.islam.newsfeeder.util.Constants.INTERVAL_UPDATE_DATABASE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,10 +68,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
         }
-        //check if the job has scheduled before
-        boolean isRunning = PreferenceUtils.getIsAlarmRunning(this);
-        if (!isRunning)
-            scheduleAlarm();
+
+        scheduleWorkManager();
     }
 
     /**
@@ -102,24 +103,24 @@ public class MainActivity extends AppCompatActivity {
     /**
      * called if the we have not scheduled any alarms yet to fire syncing database service
      */
-    // JobScheduler and WorkManager cannot be used because the minimum interval is 15 min
-    public void scheduleAlarm() {
+    public void scheduleWorkManager() {
 
-        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        Constraints constraints = new Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
 
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this,
-                AlarmReceiver.REQUEST_CODE,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setRepeating(AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime() + INTERVAL_UPDATE_DATABASE,// fire arter 10 min from now
-                INTERVAL_UPDATE_DATABASE,//repeat every 10min
-                pIntent);
+        PeriodicWorkRequest periodicWorkRequest =
+                new PeriodicWorkRequest.Builder(UpdateDatabaseWorker.class, 3, TimeUnit.HOURS)
+                        .setConstraints(constraints)
+                        .build();
 
-        //set that the alarm manager has been set successfully so we don't set it again
-        PreferenceUtils.saveIsAlarmManagerRunning(this, true);
+        WorkManager.getInstance()
+                .enqueueUniquePeriodicWork("update_database",
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        periodicWorkRequest);
+
     }
 
 

@@ -25,22 +25,24 @@ public final class ActivityUtils {
     private ActivityUtils() {
     }
 
-    public static void loadImage(ImageView imageView,
+    public static void loadImage(ImageView imageView,int height, int width,
                                  String Url,
                                  RoundedCornersTransformation cornersTransformation) {
         if (Url != null && !Url.isEmpty()) {
             RequestCreator creator = initPicasso(Url, cornersTransformation);
+            creator.resize(width,height);
             creator.into(imageView);
         }else imageView.setImageResource(R.drawable.no_image_placeholder);
 
     }
 
 
-    public static void loadImage(Target target,
+    public static void loadImage(Target target,int height, int width,
                                  String Url,
                                  RoundedCornersTransformation cornersTransformation) {
         if (Url != null && !Url.isEmpty()) {
             RequestCreator creator = initPicasso(Url, cornersTransformation);
+            creator.resize(width,height);
             creator.into(target);
         }
     }

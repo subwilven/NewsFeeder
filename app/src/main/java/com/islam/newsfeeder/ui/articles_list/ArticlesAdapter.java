@@ -23,7 +23,7 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
 
     //this used to set radius to the image
     private final RoundedCornersTransformation cornersTransformation =
-            new RoundedCornersTransformation(32, 0);
+            new RoundedCornersTransformation(16, 0);
     private final CallBacks.AdapterCallBack<Article> mCallBack;
     private NetworkState networkState;
 
@@ -54,7 +54,7 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
         if (getItemViewType(i) == TYPE_ITEM) {
             Article article = getItem(i);
             if (article != null) {
-                ActivityUtils.loadImage(holder.moviePosterImageView,
+                ActivityUtils.loadImage(holder.moviePosterImageView,220,300,
                         article.getImageUrl(),
                         cornersTransformation);
                 holder.titleTextView.setText(article.getTitle());

@@ -120,7 +120,7 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
                 titleTextView.setText(article.getTitle());
                 authorTextView.setText(article.getAuthor());
                 publishedAtTextView.setText(ActivityUtils.calculateTimeDiff(article.getPublishedAt()));
-                ActivityUtils.loadImage(target,
+                ActivityUtils.loadImage(target,400,400,
                         article.getImageUrl(),
                         null);
             }
