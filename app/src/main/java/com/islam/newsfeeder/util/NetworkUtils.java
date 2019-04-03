@@ -12,30 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkUtils {
 
-    private static PocketApi pocketApi;
-    private static ArticleApi articleApi;
-
-    public static PocketApi getPocketApi() {
-        if (pocketApi == null) {
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_POCKET_API)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            pocketApi = retrofit.create(PocketApi.class);
-        }
-        return pocketApi;
-    }
-
-    public static ArticleApi getArticleApi() {
-        if (articleApi == null) {
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(Constants.URL_NEWS_API)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            articleApi = retrofit.create(ArticleApi.class);
-        }
-        return articleApi;
-    }
-
-
     /**
      * check if the user has a WIFI connection or Mobile data on
      *

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.ui.MainActivity;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
@@ -86,7 +87,8 @@ public class ArticleDetailsFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_article_details, container, false);
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ArticlesDetailsViewModel.class);
+        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ArticlesDetailsViewModel.class);
         mViewModel.init((Article) getArguments().getSerializable(BUNDLE_ARTICLE));
 
         ArticleDetailsActivity activity = ((ArticleDetailsActivity) getActivity());

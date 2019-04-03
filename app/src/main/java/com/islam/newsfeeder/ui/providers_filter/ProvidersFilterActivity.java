@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.util.DialogUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
@@ -38,7 +39,8 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ProvidersFilterViewModel.class);
+        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProvidersFilterViewModel.class);
         mViewModel.init(PreferenceUtils.getProvidersFromShared(this));
 
         getSupportActionBar().setElevation(0f);

@@ -11,6 +11,8 @@ import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.NetworkState;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.POJO.network.ProvidersResponse;
+import com.islam.newsfeeder.dagger.network.article.DaggerNetworkArticleComponent;
+import com.islam.newsfeeder.dagger.network.article.NetworkArticleComponent;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.NetworkUtils;
@@ -25,26 +27,14 @@ import retrofit2.Response;
 
 public class ArticleRepository {
 
-    private static ArticleRepository INSTANCE = null;
     private final ArticleDao mArticleDao;
     private final ArticleService mAarticleService;
 
     private MutableLiveData<NetworkState> mNetworkState = new MutableLiveData<>();
 
-    private ArticleRepository(ArticleService articleService, ArticleDao articleDao) {
+    public ArticleRepository(ArticleService articleService, ArticleDao articleDao) {
         this.mArticleDao = articleDao;
         mAarticleService = articleService;
-    }
-
-    public static ArticleRepository getInstance(ArticleService articleService, ArticleDao articleDao) {
-        if (INSTANCE == null) {
-            synchronized (ArticleRepository.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ArticleRepository(articleService, articleDao);
-                }
-            }
-        }
-        return INSTANCE;
     }
 
     public LiveData<PagedList<Article>> getArticles() {
@@ -72,7 +62,9 @@ public class ArticleRepository {
             callBack.onFailed(Constants.ERROR_NO_CONNECTION);
         }
 
-        ArticleApi articleApi = NetworkUtils.getArticleApi();
+        NetworkArticleComponent component = DaggerNetworkArticleComponent.create();
+        ArticleApi articleApi = component.getArticleApi();
+
         Call<ProvidersResponse> connection = articleApi.getProviders(
                 "sources",
                 BuildConfig.NEWS_API_KEY);

@@ -4,10 +4,11 @@ import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.POJO.network.ArticleResponse;
+import com.islam.newsfeeder.dagger.network.article.DaggerNetworkArticleComponent;
+import com.islam.newsfeeder.dagger.network.article.NetworkArticleComponent;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
-import com.islam.newsfeeder.util.NetworkUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 
 import java.util.List;
@@ -36,7 +37,9 @@ public class ArticleService {
 
     public void fetchArticles(int pageNumber, CallBacks.NetworkCallBack callBack) {
 
-        ArticleApi articleApi = NetworkUtils.getArticleApi();
+        NetworkArticleComponent component = DaggerNetworkArticleComponent.create();
+        ArticleApi articleApi = component.getArticleApi();
+
         List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());
         String sources = ActivityUtils.convertProvidersToString(providers);
 

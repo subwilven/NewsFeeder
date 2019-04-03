@@ -19,28 +19,12 @@ import com.islam.newsfeeder.ui.read_later.ReadLaterViewModel;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private static volatile ViewModelFactory INSTANCE;
     private final ArticleRepository mArticleRepository;
     private final PocketRepository mPocketRepository;
 
     public ViewModelFactory(ArticleRepository articleRepository, PocketRepository pocketRepository) {
         this.mArticleRepository = articleRepository;
         mPocketRepository = pocketRepository;
-    }
-
-    public static ViewModelFactory getInstance() {
-
-        if (INSTANCE == null) {
-            synchronized (ViewModelFactory.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ViewModelFactory(
-                            ArticleRepository.getInstance(ArticleService.getInstance(),
-                                    NewsFeederDatabase.getInstance().articleDao())
-                            , PocketRepository.getInstance());
-                }
-            }
-        }
-        return INSTANCE;
     }
 
     @NonNull

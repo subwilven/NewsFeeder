@@ -15,6 +15,7 @@ import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
+import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.DialogUtils;
@@ -36,7 +37,8 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance()).get(ReadLaterViewModel.class);
+        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ReadLaterViewModel.class);
         String accessToken = PreferenceUtils.getPocketData(getContext(), KEY_ACCESS_TOKEN);
         mViewModel.init(accessToken);
         signInPocketLayout = view.findViewById(R.id.pocket_sign_in);

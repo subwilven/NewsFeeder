@@ -18,6 +18,7 @@ import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.NetworkState;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
+import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.ui.article_details.ArticleDetailsActivity;
 import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterActivity;
 import com.islam.newsfeeder.util.CallBacks;
@@ -33,7 +34,8 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
-        mViewModel = ViewModelProviders.of(getActivity(), ViewModelFactory.getInstance()).get(ArticlesViewModel.class);
+        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        mViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(ArticlesViewModel.class);
         mAdapter = new ArticlesAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
@@ -96,12 +98,11 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         //remove the listener
         PreferenceUtils.getProviderSharedPreference(getContext())
                 .unregisterOnSharedPreferenceChangeListener(this);
-        super.onDestroy();
-
+        super.onStop();
     }
 
     @Override

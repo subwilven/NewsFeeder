@@ -3,6 +3,7 @@ package com.islam.newsfeeder.data.articles;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PagedList;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 
 import com.islam.newsfeeder.POJO.Article;
@@ -25,10 +26,10 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
     // to avoid triggering multiple requests in the same time
     private boolean isRequestInProgress = false;
 
-    public BoundaryCallback(ArticleService articleService, ArticleDao articleDao,MutableLiveData<NetworkState> mNetworkState) {
+    public BoundaryCallback(ArticleService articleService, ArticleDao articleDao, MutableLiveData<NetworkState> mNetworkState) {
         mArticleDao = articleDao;
         mArticleService = articleService;
-        this.mNetworkState =mNetworkState;
+        this.mNetworkState = mNetworkState;
         mNetworkState.setValue(NetworkState.SUCCESS());
     }
 
@@ -58,7 +59,7 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
         if (isRequestInProgress) return;
         mNetworkState.setValue(NetworkState.LOADING());
         isRequestInProgress = true;
-            fetchArticles();
+        fetchArticles();
 
 
     }
@@ -72,6 +73,8 @@ public class BoundaryCallback extends PagedList.BoundaryCallback<Article> {
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {
+                        //just to show that there is a paging
+                        SystemClock.sleep(4000);
                         mArticleDao.insert(items);
                         mNetworkState.postValue(NetworkState.SUCCESS());
                         lastRequestedPage++;

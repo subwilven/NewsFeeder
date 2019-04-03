@@ -31,7 +31,8 @@ public final class ActivityUtils {
         if (Url != null && !Url.isEmpty()) {
             RequestCreator creator = initPicasso(Url, cornersTransformation);
             creator.into(imageView);
-        }
+        }else imageView.setImageResource(R.drawable.no_image_placeholder);
+
     }
 
 
@@ -51,7 +52,7 @@ public final class ActivityUtils {
         if (cornersTransformation != null)
             creator.transform(cornersTransformation);
         creator.placeholder(R.drawable.placeholder);
-        creator.error(R.drawable.placeholder);
+        creator.error(R.drawable.no_image_placeholder);
         return creator;
     }
 

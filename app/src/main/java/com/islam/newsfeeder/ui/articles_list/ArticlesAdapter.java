@@ -92,7 +92,7 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
     }
 
     private boolean hasExtraRow() {
-        if (networkState != null && networkState.getStatus() != NetworkState.STATUS_LOADING) {
+        if (networkState != null && networkState.getStatus() == NetworkState.STATUS_LOADING) {
             return true;
         } else {
             return false;

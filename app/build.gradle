@@ -39,6 +39,9 @@ dependencies {
     implementation 'com.android.support:customtabs:28.0.0'
     implementation 'com.android.support:palette-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
+
+    //helper
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
     //network
@@ -46,7 +49,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 
-    implementation 'com.squareup.picasso:picasso:2.71828'
+    //Dependency Injection.
+    implementation 'com.google.dagger:dagger:2.21'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
 
     //MVVM Pattern
     implementation 'android.arch.lifecycle:extensions:1.1.1'
@@ -54,6 +59,7 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor  "android.arch.persistence.room:compiler:1.1.1"
 
+    //testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

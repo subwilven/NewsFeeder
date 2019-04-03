@@ -10,7 +10,10 @@ import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
 
+import javax.inject.Inject;
+
 public class ArticlesDetailsViewModel extends ViewModel {
+
 
     private final PocketRepository mRepository;
 

@@ -10,7 +10,8 @@ import com.islam.newsfeeder.POJO.Article;
 import com.islam.newsfeeder.POJO.Resource;
 import com.islam.newsfeeder.POJO.network.PocketResponse;
 import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
-import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.dagger.network.pocket.DaggerNetworkPocketComponent;
+import com.islam.newsfeeder.dagger.network.pocket.NetworkPocketComponent;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.NetworkUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
@@ -29,29 +30,18 @@ import static com.islam.newsfeeder.util.Constants.redirectUri;
 
 public class PocketRepository {
 
-    private static PocketRepository INSTANCE = null;
     MutableLiveData<Boolean> accessTokenListner;
 
-    private PocketRepository() {
-    }
-
-    public static PocketRepository getInstance() {
-        if (INSTANCE == null) {
-            synchronized (ArticleRepository.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new PocketRepository();
-                }
-            }
-        }
-        return INSTANCE;
-    }
+    public PocketRepository() {}
 
 
     public LiveData<String> login() {
         MutableLiveData<String> result = new MutableLiveData<>();
 
-        PocketApi articleApi = NetworkUtils.getPocketApi();
-        Call<PocketResponse.RequestTokenResponse> connection = articleApi.requestToken(
+        NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+        PocketApi pocketApi = component.getPocketApi();
+
+        Call<PocketResponse.RequestTokenResponse> connection = pocketApi.requestToken(
                 BuildConfig.KEY_POCKET_CONSUMER, redirectUri);
 
         connection.enqueue(new Callback<PocketResponse.RequestTokenResponse>() {
@@ -76,7 +66,10 @@ public class PocketRepository {
     public void getAccessToken() {
 
         String requestToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_REQUEST_TOKEN);
-        PocketApi pocketApi = NetworkUtils.getPocketApi();
+
+        NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+        PocketApi pocketApi = component.getPocketApi();
+
         Call<PocketResponse.AccessTokenResponse> token
                 = pocketApi.getAccessToken(BuildConfig.KEY_POCKET_CONSUMER, requestToken);
 
@@ -108,7 +101,9 @@ public class PocketRepository {
         }
 
         String accessToken = PreferenceUtils.getPocketData(context, KEY_ACCESS_TOKEN);
-        PocketApi pocketApi = NetworkUtils.getPocketApi();
+
+        NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+        PocketApi pocketApi = component.getPocketApi();
 
         Call<PocketResponse.AddArticleResponse> token = pocketApi.
                 addArticleToReadLater(BuildConfig.KEY_POCKET_CONSUMER,
@@ -142,7 +137,9 @@ public class PocketRepository {
             list.setValue(Resource.loading(null));
 
             String accessToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_ACCESS_TOKEN);
-            PocketApi pocketApi = NetworkUtils.getPocketApi();
+
+            NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+            PocketApi pocketApi = component.getPocketApi();
 
             Call<PocketResponse.SavedArticlesResponse> token = pocketApi.getReadLaterArticles(BuildConfig.KEY_POCKET_CONSUMER,
                     accessToken);
