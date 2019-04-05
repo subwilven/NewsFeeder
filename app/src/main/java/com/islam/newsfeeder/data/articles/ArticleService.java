@@ -53,6 +53,7 @@ public class ArticleService {
         connection.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(Call<ArticleResponse> call, Response<ArticleResponse> response) {
+                if(response.isSuccessful())
                 callBack.onSuccess(response.body().getData());
             }
 
