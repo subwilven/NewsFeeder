@@ -1,13 +1,11 @@
 package com.islam.newsfeeder.ui.articles_list;
 
-import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.PagedList;
 
-import com.islam.newsfeeder.POJO.Article;
-import com.islam.newsfeeder.POJO.NetworkState;
+import com.islam.newsfeeder.pojo.Article;
+import com.islam.newsfeeder.pojo.NetworkState;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
 

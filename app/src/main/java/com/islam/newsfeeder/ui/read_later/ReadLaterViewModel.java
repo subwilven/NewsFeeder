@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.islam.newsfeeder.POJO.Resource;
-import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
+import com.islam.newsfeeder.pojo.Resource;
+import com.islam.newsfeeder.pojo.network.ReadLaterArticle;
 import com.islam.newsfeeder.data.pocket.PocketRepository;
 
 import java.util.List;

@@ -1,14 +1,9 @@
 package com.islam.newsfeeder.services;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.islam.newsfeeder.MyApplication;
-import com.islam.newsfeeder.POJO.Article;
-import com.islam.newsfeeder.POJO.network.ArticleResponse;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.dagger.repository.DaggerDatabaseDaoComponent;
 import com.islam.newsfeeder.data.articles.ArticleService;
 import com.islam.newsfeeder.util.CallBacks;

@@ -11,8 +11,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.islam.newsfeeder.POJO.Resource;
-import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
+import com.islam.newsfeeder.pojo.Resource;
+import com.islam.newsfeeder.pojo.network.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
+import com.islam.newsfeeder.pojo.network.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;

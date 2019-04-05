@@ -24,25 +24,28 @@ import androidx.work.WorkManager;
 
 import static com.islam.newsfeeder.util.Constants.BUNDLE_OPEN_REAL_LATER_FRAGMENT;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     private static String FRAGMENT_CURRENT = "";
     BottomNavigationView navigation;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
-                    return true;
-                case R.id.navigation_read_later:
-                    replaceFragment(ReadLaterFragment.class, null);
-                    return true;
-            }
-            return false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setElevation(0f);
+
+        navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(this);
+
+        //if this the first launch
+        if (savedInstanceState == null) {
+            replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
         }
-    };
+
+        scheduleWorkManager();
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -54,23 +57,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        getSupportActionBar().setElevation(0f);
-
-        navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        //if this the first launch
-        if (savedInstanceState == null) {
-            replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
-        }
-
-        scheduleWorkManager();
-    }
 
     /**
      * replace the fragment when bottom navigation bar in clicked
@@ -124,4 +110,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.navigation_home:
+                replaceFragment(ArticlesListFragment.class, ArticlesListFragment.TAG);
+                return true;
+            case R.id.navigation_read_later:
+                replaceFragment(ReadLaterFragment.class, null);
+                return true;
+        }
+        return false;
+    }
 }

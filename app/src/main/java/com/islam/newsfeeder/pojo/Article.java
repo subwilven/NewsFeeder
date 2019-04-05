@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.POJO;
+package com.islam.newsfeeder.pojo;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Embedded;

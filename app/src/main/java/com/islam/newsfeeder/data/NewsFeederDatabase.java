@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
 import com.islam.newsfeeder.MyApplication;
-import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.data.articles.ArticleDao;
 
 @Database(entities = {Article.class}, version = 3)

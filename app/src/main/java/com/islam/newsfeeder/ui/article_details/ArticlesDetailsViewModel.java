@@ -4,13 +4,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.data.pocket.PocketRepository;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
-
-import javax.inject.Inject;
 
 public class ArticlesDetailsViewModel extends ViewModel {
 
@@ -25,7 +23,6 @@ public class ArticlesDetailsViewModel extends ViewModel {
     }
 
     public final MutableLiveData<Article> articleData = new MutableLiveData<>();
-    private final SingleLiveEvent<Boolean> shouldOpenCustomTab = new SingleLiveEvent<>();
 
     public void init(Article article) {
         articleData.setValue(article);
@@ -50,18 +47,6 @@ public class ArticlesDetailsViewModel extends ViewModel {
 
     //-------------------------------------------
     // setters and getters
-
-    public LiveData<Article> getArticleData() {
-        return articleData;
-    }
-
-    public LiveData<Boolean> getShouldOpenCustomTab() {
-        return shouldOpenCustomTab;
-    }
-
-    public void setShouldOpenCustomTab(boolean b) {
-        shouldOpenCustomTab.setValue(true);
-    }
 
     public LiveData<Boolean> getShowToastNoConnection() {
         return showToastNoConnection;

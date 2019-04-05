@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.islam.newsfeeder.POJO.Provider;
+import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.util.other.RoundedCornersTransformation;
 import com.squareup.picasso.Picasso;

@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.POJO;
+package com.islam.newsfeeder.pojo;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

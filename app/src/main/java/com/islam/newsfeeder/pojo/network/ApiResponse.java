@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.POJO.network;
+package com.islam.newsfeeder.pojo.network;
 
 import android.support.annotation.Nullable;
 

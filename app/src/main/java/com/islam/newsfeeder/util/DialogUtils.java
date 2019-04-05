@@ -3,7 +3,7 @@ package com.islam.newsfeeder.util;
 import android.content.Context;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.islam.newsfeeder.POJO.Provider;
+import com.islam.newsfeeder.pojo.Provider;
 
 import java.util.List;
 

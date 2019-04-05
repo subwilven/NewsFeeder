@@ -1,18 +1,18 @@
 package com.islam.newsfeeder.ui.articles_list;
 
 import android.arch.paging.PagedListAdapter;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.islam.newsfeeder.POJO.Article;
-import com.islam.newsfeeder.POJO.NetworkState;
+import com.islam.newsfeeder.pojo.Article;
+import com.islam.newsfeeder.pojo.NetworkState;
 import com.islam.newsfeeder.R;
-import com.islam.newsfeeder.util.ActivityUtils;
+import com.islam.newsfeeder.databinding.ItemArticleBinding;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.other.RoundedCornersTransformation;
 
@@ -43,9 +43,9 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
                         .inflate(R.layout.item_progress, parent, false);
                 return new ViewHolder(view);
             default:
-                View view1 = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_article, parent, false);
-                return new ViewHolder(view1);
+                ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.item_article, parent, false);
+                return new ViewHolder(binding);
         }
     }
 
@@ -54,13 +54,10 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
         if (getItemViewType(i) == TYPE_ITEM) {
             Article article = getItem(i);
             if (article != null) {
-                ActivityUtils.loadImage(holder.moviePosterImageView,220,300,
-                        article.getImageUrl(),
-                        cornersTransformation);
-                holder.titleTextView.setText(article.getTitle());
-                holder.autherTextView.setText(article.getAuthor());
-                holder.timeTextView.setText(ActivityUtils.calculateTimeDiff(article.getPublishedAt()));
-                holder.contentTextView.setText(article.getContent());
+//                ActivityUtils.loadImage(holder.moviePosterImageView, 220, 300,
+//                        article.getImageUrl(),
+//                        cornersTransformation);
+                holder.bind(article);
             }
         }
     }
@@ -100,19 +97,21 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ItemArticleBinding binding;
 
-        private final ImageView moviePosterImageView;
-        private final TextView titleTextView,contentTextView,timeTextView,autherTextView;
+        public ViewHolder(ViewDataBinding itemView) {
+            super(itemView.getRoot());
+            this.binding = (ItemArticleBinding) itemView;
+            itemView.getRoot().setOnClickListener(this);
+        }
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            moviePosterImageView = itemView.findViewById(R.id.item_article_image);
-            titleTextView = itemView.findViewById(R.id.item_article_title);
-            contentTextView = itemView.findViewById(R.id.item_article_content);
-            timeTextView = itemView.findViewById(R.id.item_article_time);
-            autherTextView = itemView.findViewById(R.id.item_article_auther);
+        public ViewHolder(View view) {
+            super(view);
+        }
 
-            itemView.setOnClickListener(this);
+        public void bind(Article item) {
+            binding.setArticle(item);
+            binding.executePendingBindings();
         }
 
         @Override

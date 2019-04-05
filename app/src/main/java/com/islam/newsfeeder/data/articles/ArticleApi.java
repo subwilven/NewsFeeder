@@ -1,7 +1,7 @@
 package com.islam.newsfeeder.data.articles;
 
-import com.islam.newsfeeder.POJO.network.ArticleResponse;
-import com.islam.newsfeeder.POJO.network.ProvidersResponse;
+import com.islam.newsfeeder.pojo.network.ArticleResponse;
+import com.islam.newsfeeder.pojo.network.ProvidersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

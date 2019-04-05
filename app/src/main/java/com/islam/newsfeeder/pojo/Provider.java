@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.POJO;
+package com.islam.newsfeeder.pojo;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -10,10 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 
-import com.islam.newsfeeder.POJO.Resource;
+import com.islam.newsfeeder.pojo.Resource;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.util.ActivityUtils;
 

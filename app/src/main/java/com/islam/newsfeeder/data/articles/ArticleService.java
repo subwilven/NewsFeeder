@@ -2,8 +2,8 @@ package com.islam.newsfeeder.data.articles;
 
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
-import com.islam.newsfeeder.POJO.Provider;
-import com.islam.newsfeeder.POJO.network.ArticleResponse;
+import com.islam.newsfeeder.pojo.Provider;
+import com.islam.newsfeeder.pojo.network.ArticleResponse;
 import com.islam.newsfeeder.dagger.network.article.DaggerNetworkArticleComponent;
 import com.islam.newsfeeder.dagger.network.article.NetworkArticleComponent;
 import com.islam.newsfeeder.util.ActivityUtils;

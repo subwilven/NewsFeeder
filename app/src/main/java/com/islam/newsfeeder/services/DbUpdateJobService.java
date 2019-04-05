@@ -1,6 +1,5 @@
 package com.islam.newsfeeder.services;
 
-import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -9,20 +8,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.islam.newsfeeder.POJO.network.ArticleResponse;
 import com.islam.newsfeeder.R;
-import com.islam.newsfeeder.data.NewsFeederDatabase;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
-import com.islam.newsfeeder.data.articles.ArticleService;
-import com.islam.newsfeeder.util.CallBacks;
 
 import static com.islam.newsfeeder.util.Constants.ID_FOREGROUND_SERVICE;
 import static com.islam.newsfeeder.util.Constants.NOTIFICATION_CHANNEL_ID;

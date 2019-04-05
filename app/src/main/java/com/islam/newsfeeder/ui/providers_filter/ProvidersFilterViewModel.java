@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.islam.newsfeeder.POJO.Provider;
+import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;

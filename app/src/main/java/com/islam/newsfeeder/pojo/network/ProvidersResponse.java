@@ -1,8 +1,8 @@
-package com.islam.newsfeeder.POJO.network;
+package com.islam.newsfeeder.pojo.network;
 
 import android.support.annotation.Nullable;
 
-import com.islam.newsfeeder.POJO.Provider;
+import com.islam.newsfeeder.pojo.Provider;
 
 import java.util.List;
 

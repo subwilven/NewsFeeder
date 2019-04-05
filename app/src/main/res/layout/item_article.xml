@@ -1,92 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/item_article_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:scaleType="fitXY"
-        app:layout_constraintDimensionRatio="h,16:9"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/item_article_time"
-        app:layout_constraintTop_toBottomOf="@+id/item_article_time"
-        tools:srcCompat="@android:drawable/btn_dialog" />
+    <data>
+        <import type="com.islam.newsfeeder.util.ActivityUtils"/>
+        <variable
+            name="article" type="com.islam.newsfeeder.pojo.Article" />
+    </data>
 
-    <TextView
-        android:id="@+id/item_article_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/colorTextPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/item_article_image"
-        app:layout_constraintStart_toStartOf="@+id/item_article_image"
-        app:layout_constraintTop_toBottomOf="@+id/item_article_image"
-        tools:text="TextView" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/item_article_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ellipsize="end"
-        android:maxLines="2"
-        tools:text="TextView"
-        android:textColor="@color/colorTextSecondary"
-        app:layout_constraintEnd_toEndOf="@+id/item_article_image"
-        app:layout_constraintStart_toStartOf="@+id/item_article_title"
-        app:layout_constraintTop_toBottomOf="@+id/item_article_title" />
+        <ImageView
+            android:id="@+id/item_article_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            app:layout_constraintDimensionRatio="h,16:9"
+            app:layout_constraintEnd_toEndOf="@+id/textView5"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="@+id/item_article_time"
+            app:layout_constraintTop_toBottomOf="@+id/item_article_time"
+            tools:srcCompat="@android:drawable/btn_dialog" />
 
-    <TextView
-        android:id="@+id/item_article_auther"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
-        tools:text="TextView"
-        android:textColor="@color/colorTextPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="@+id/item_article_content"
-        app:layout_constraintTop_toBottomOf="@+id/item_article_content" />
+        <TextView
+            android:id="@+id/item_article_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@{article.title}"
+            app:layout_constraintEnd_toEndOf="@+id/item_article_image"
+            app:layout_constraintStart_toStartOf="@+id/item_article_image"
+            app:layout_constraintTop_toBottomOf="@+id/item_article_image"
+            tools:text="TextView" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3 min read"
-        android:textColor="@color/colorTextSecondary"
-        app:layout_constraintBottom_toBottomOf="@+id/item_article_auther"
-        app:layout_constraintEnd_toEndOf="@+id/item_article_image"
-        app:layout_constraintTop_toTopOf="@+id/item_article_auther" />
+        <TextView
+            android:id="@+id/item_article_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{article.content}"
+            android:textColor="@color/colorTextSecondary"
+            app:layout_constraintEnd_toEndOf="@+id/item_article_image"
+            app:layout_constraintStart_toStartOf="@+id/item_article_title"
+            app:layout_constraintTop_toBottomOf="@+id/item_article_title"
+            tools:text="TextView" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="@string/see_all"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/item_article_time" />
+        <TextView
+            android:id="@+id/item_article_auther"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="20dp"
+            android:text="@{article.author}"
+            android:textColor="@color/colorTextPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="@+id/item_article_content"
+            app:layout_constraintTop_toBottomOf="@+id/item_article_content"
+            tools:text="TextView" />
 
-    <TextView
-        android:id="@+id/item_article_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        tools:text="Today"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 min read"
+            android:textColor="@color/colorTextSecondary"
+            app:layout_constraintBottom_toBottomOf="@+id/item_article_auther"
+            app:layout_constraintEnd_toEndOf="@+id/item_article_image"
+            app:layout_constraintTop_toTopOf="@+id/item_article_auther" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/see_all"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/item_article_time" />
+
+        <TextView
+            android:id="@+id/item_article_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            android:text="@{ActivityUtils.calculateTimeDiff(article.publishedAt)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Today" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

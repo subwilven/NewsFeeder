@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.util.Constants;
 

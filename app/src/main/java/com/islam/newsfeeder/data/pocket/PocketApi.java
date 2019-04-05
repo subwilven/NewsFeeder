@@ -1,6 +1,6 @@
 package com.islam.newsfeeder.data.pocket;
 
-import com.islam.newsfeeder.POJO.network.PocketResponse;
+import com.islam.newsfeeder.pojo.network.PocketResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

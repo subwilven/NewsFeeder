@@ -1,22 +1,19 @@
 package com.islam.newsfeeder.ui.providers_filter;
 
-import android.Manifest;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.chip.Chip;
 import android.support.design.chip.ChipGroup;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.islam.newsfeeder.POJO.Provider;
+import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.util.ActivityUtils;

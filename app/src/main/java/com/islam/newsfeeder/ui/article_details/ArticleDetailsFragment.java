@@ -18,7 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.islam.newsfeeder.POJO.Article;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.databinding.FragmentArticleDetailsBinding;
@@ -123,7 +123,7 @@ public class ArticleDetailsFragment extends Fragment {
 
     public void openArticleUrlInCustomTap() {
         ActivityUtils.openCustomTab(getContext(), mMutedColor,
-                mViewModel.getArticleData().getValue().getArticleUrl());
+                mViewModel.articleData.getValue().getArticleUrl());
     }
 
     public void onReadLater(){

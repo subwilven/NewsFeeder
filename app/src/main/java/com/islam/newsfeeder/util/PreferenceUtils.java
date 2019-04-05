@@ -2,17 +2,15 @@ package com.islam.newsfeeder.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.islam.newsfeeder.POJO.Provider;
+import com.islam.newsfeeder.pojo.Provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.islam.newsfeeder.util.Constants.KEY_JOB_SCHEDULER_STATUS;
 import static com.islam.newsfeeder.util.Constants.KEY_PROVIDERS;
 import static com.islam.newsfeeder.util.Constants.SHARED_POCKET_file;
 import static com.islam.newsfeeder.util.Constants.SHARED_PROVIDERS_file;

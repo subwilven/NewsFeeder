@@ -6,10 +6,10 @@ import android.content.Context;
 
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
-import com.islam.newsfeeder.POJO.Article;
-import com.islam.newsfeeder.POJO.Resource;
-import com.islam.newsfeeder.POJO.network.PocketResponse;
-import com.islam.newsfeeder.POJO.network.ReadLaterArticle;
+import com.islam.newsfeeder.pojo.Article;
+import com.islam.newsfeeder.pojo.Resource;
+import com.islam.newsfeeder.pojo.network.PocketResponse;
+import com.islam.newsfeeder.pojo.network.ReadLaterArticle;
 import com.islam.newsfeeder.dagger.network.pocket.DaggerNetworkPocketComponent;
 import com.islam.newsfeeder.dagger.network.pocket.NetworkPocketComponent;
 import com.islam.newsfeeder.util.CallBacks;
