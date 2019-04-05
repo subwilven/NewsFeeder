@@ -7,6 +7,8 @@
         <import type="com.islam.newsfeeder.util.ActivityUtils"/>
         <variable
             name="article" type="com.islam.newsfeeder.pojo.Article" />
+        <variable
+            name="roundedCorner" type="com.islam.newsfeeder.util.other.RoundedCornersTransformation" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -19,6 +21,10 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:scaleType="fitXY"
+            app:imageUrl="@{article.imageUrl}"
+            app:height="@{Integer.valueOf(400)}"
+            app:width="@{Integer.valueOf(400)}"
+            app:roundedCorners="@{roundedCorner}"
             app:layout_constraintDimensionRatio="h,16:9"
             app:layout_constraintEnd_toEndOf="@+id/textView5"
             app:layout_constraintHorizontal_bias="0.501"

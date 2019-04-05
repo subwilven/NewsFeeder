@@ -54,9 +54,6 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
         if (getItemViewType(i) == TYPE_ITEM) {
             Article article = getItem(i);
             if (article != null) {
-//                ActivityUtils.loadImage(holder.moviePosterImageView, 220, 300,
-//                        article.getImageUrl(),
-//                        cornersTransformation);
                 holder.bind(article);
             }
         }
@@ -89,28 +86,25 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
     }
 
     private boolean hasExtraRow() {
-        if (networkState != null && networkState.getStatus() == NetworkState.STATUS_LOADING) {
-            return true;
-        } else {
-            return false;
-        }
+        return networkState != null && networkState.getStatus() == NetworkState.STATUS_LOADING;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ItemArticleBinding binding;
 
-        public ViewHolder(ViewDataBinding itemView) {
+        ViewHolder(ViewDataBinding itemView) {
             super(itemView.getRoot());
             this.binding = (ItemArticleBinding) itemView;
             itemView.getRoot().setOnClickListener(this);
         }
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
         }
 
-        public void bind(Article item) {
+        void bind(Article item) {
             binding.setArticle(item);
+            binding.setRoundedCorner(cornersTransformation);
             binding.executePendingBindings();
         }
 

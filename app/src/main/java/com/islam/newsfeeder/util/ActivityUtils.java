@@ -30,7 +30,12 @@ public final class ActivityUtils {
     @BindingAdapter({"target", "height", "width", "imageUrl"})
     public static void loadImageBinding(ImageView imageView, Target target, int height, int width, String Url) {
         loadImage(target, height, width, Url, null);
+    }
 
+    @BindingAdapter({"roundedCorners", "height", "width", "imageUrl"})
+    public static void loadImageBinding(ImageView imageView, RoundedCornersTransformation roundedCorners,
+                                        int height, int width, String Url) {
+        loadImage(imageView, height, width, Url, roundedCorners);
     }
 
     public static void loadImage(ImageView imageView, int height, int width,
