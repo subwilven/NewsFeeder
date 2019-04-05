@@ -9,7 +9,7 @@
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:statusBarColor">@color/gray</item>
         <item name="actionBarTheme">@style/MyActionBar</item>
 
     </style>

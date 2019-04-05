@@ -1,12 +1,14 @@
 package com.islam.newsfeeder.util;
 
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.R;
@@ -25,24 +27,30 @@ public final class ActivityUtils {
     private ActivityUtils() {
     }
 
-    public static void loadImage(ImageView imageView,int height, int width,
+    @BindingAdapter({"target", "height", "width", "imageUrl"})
+    public static void loadImageBinding(ImageView imageView, Target target, int height, int width, String Url) {
+        loadImage(target, height, width, Url, null);
+
+    }
+
+    public static void loadImage(ImageView imageView, int height, int width,
                                  String Url,
                                  RoundedCornersTransformation cornersTransformation) {
         if (Url != null && !Url.isEmpty()) {
             RequestCreator creator = initPicasso(Url, cornersTransformation);
-            creator.resize(width,height);
+            creator.resize(width, height);
             creator.into(imageView);
-        }else imageView.setImageResource(R.drawable.no_image_placeholder);
+        } else imageView.setImageResource(R.drawable.no_image_placeholder);
 
     }
 
 
-    public static void loadImage(Target target,int height, int width,
+    public static void loadImage(Target target, int height, int width,
                                  String Url,
                                  RoundedCornersTransformation cornersTransformation) {
         if (Url != null && !Url.isEmpty()) {
             RequestCreator creator = initPicasso(Url, cornersTransformation);
-            creator.resize(width,height);
+            creator.resize(width, height);
             creator.into(target);
         }
     }
@@ -62,6 +70,13 @@ public final class ActivityUtils {
         for (View view : views) {
             view.setVisibility(v);
         }
+    }
+    public static void showToast(Context context, int stringId) {
+        showToast(context,context.getString(stringId));
+    }
+
+    public static void showToast(Context context, String string) {
+        Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -86,6 +101,7 @@ public final class ActivityUtils {
 
     /**
      * convert the string time to different format like ( 1 hour ago ,  yesterday ...etc)
+     *
      * @param time The string time fetched from the api
      * @return
      */
@@ -103,7 +119,6 @@ public final class ActivityUtils {
         }
         return null;
     }
-
 
 
     public static String convertProvidersToString(List<Provider> providers) {

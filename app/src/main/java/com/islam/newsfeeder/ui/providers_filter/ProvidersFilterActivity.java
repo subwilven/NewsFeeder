@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.islam.newsfeeder.POJO.Provider;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
+import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.DialogUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
@@ -73,7 +74,7 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         mViewModel.getShowToastAtLeastOnProvider().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                Toast.makeText(ProvidersFilterActivity.this, getString(R.string.should_be_at_least_one_checked_provider), Toast.LENGTH_SHORT).show();
+                ActivityUtils.showToast(ProvidersFilterActivity.this,R.string.should_be_at_least_one_checked_provider);
             }
         });
 
@@ -104,7 +105,7 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         mViewModel.getShowToastNoConnection().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean aBoolean) {
-                Toast.makeText(ProvidersFilterActivity.this, getString(R.string.no_network_connection), Toast.LENGTH_SHORT).show();
+                ActivityUtils.showToast(ProvidersFilterActivity.this,R.string.no_network_connection);
             }
         });
     }

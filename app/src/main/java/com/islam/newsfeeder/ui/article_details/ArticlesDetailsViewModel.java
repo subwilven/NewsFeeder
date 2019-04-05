@@ -24,7 +24,7 @@ public class ArticlesDetailsViewModel extends ViewModel {
         this.mRepository = mRepository;
     }
 
-    private final MutableLiveData<Article> articleData = new MutableLiveData<>();
+    public final MutableLiveData<Article> articleData = new MutableLiveData<>();
     private final SingleLiveEvent<Boolean> shouldOpenCustomTab = new SingleLiveEvent<>();
 
     public void init(Article article) {
