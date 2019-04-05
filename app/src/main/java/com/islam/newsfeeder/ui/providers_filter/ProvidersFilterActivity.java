@@ -30,8 +30,6 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
     private ProvidersFilterViewModel mViewModel;
     private MaterialDialog loadingDialog;
     private MaterialDialog providersListDialog;
-    //the last chip in the group
-    private Chip addProviderChip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
