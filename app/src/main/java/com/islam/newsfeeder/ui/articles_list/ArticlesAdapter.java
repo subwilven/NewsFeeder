@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.islam.newsfeeder.pojo.Article;
-import com.islam.newsfeeder.pojo.NetworkState;
+import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.databinding.ItemArticleBinding;
 import com.islam.newsfeeder.util.CallBacks;

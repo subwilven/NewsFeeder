@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.islam.newsfeeder.pojo.Article;
-import com.islam.newsfeeder.pojo.NetworkState;
+import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;

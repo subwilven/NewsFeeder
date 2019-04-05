@@ -8,7 +8,7 @@ import android.arch.paging.PagedList;
 import com.islam.newsfeeder.BuildConfig;
 import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.pojo.Article;
-import com.islam.newsfeeder.pojo.NetworkState;
+import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.pojo.network.ProvidersResponse;
 import com.islam.newsfeeder.dagger.network.article.DaggerNetworkArticleComponent;

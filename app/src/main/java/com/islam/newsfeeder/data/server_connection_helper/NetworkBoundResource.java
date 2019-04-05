@@ -10,7 +10,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
-import com.islam.newsfeeder.pojo.Resource;
+import com.islam.newsfeeder.pojo.network.Resource;
 import com.islam.newsfeeder.pojo.network.ApiResponse;
 import com.islam.newsfeeder.util.NetworkUtils;
 

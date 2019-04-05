@@ -1,6 +1,7 @@
 package com.islam.newsfeeder.pojo.network;
 
 import com.google.gson.annotations.SerializedName;
+import com.islam.newsfeeder.pojo.ReadLaterArticle;
 
 import java.util.Map;
 

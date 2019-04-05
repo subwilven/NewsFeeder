@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.islam.newsfeeder.pojo.Resource;
+import com.islam.newsfeeder.pojo.network.Resource;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.util.ActivityUtils;
 

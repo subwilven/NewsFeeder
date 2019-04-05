@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.paging.PagedList;
 
 import com.islam.newsfeeder.pojo.Article;
-import com.islam.newsfeeder.pojo.NetworkState;
+import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
 

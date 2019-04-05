@@ -1,4 +1,4 @@
-package com.islam.newsfeeder.pojo;
+package com.islam.newsfeeder.pojo.network;
 
 public class NetworkState {
     public static final int STATUS_LOADING = 0;

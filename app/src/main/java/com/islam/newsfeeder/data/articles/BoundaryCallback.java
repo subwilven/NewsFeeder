@@ -7,7 +7,7 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 
 import com.islam.newsfeeder.pojo.Article;
-import com.islam.newsfeeder.pojo.NetworkState;
+import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.util.CallBacks;
 
 import java.util.List;
