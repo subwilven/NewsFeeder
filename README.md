@@ -8,6 +8,12 @@ Combines hundreds of trusted sources to provide best contents as fast as possibl
 The purpose of this repo is to follow up Clean Architecture principles by bringing them to Android. The focus of this project is on [Android Jetpack][17] and DI by Dagger2.I believe this is not the final architectural model, so we have to continue explore, and continue to make improvements in order to adapt to our increasingly complex business growth.
 
 # Screens
+![Screenshot](https://github.com/subwilven/NewsFeeder/blob/master/screenshots/0.png?raw=true)
+![Screenshot](https://github.com/subwilven/NewsFeeder/blob/master/screenshots/1.png?raw=true)
+![Screenshot](https://github.com/subwilven/NewsFeeder/blob/master/screenshots/2.png?raw=true)
+![Screenshot](https://github.com/subwilven/NewsFeeder/blob/master/screenshots/3.png?raw=true)
+![Screenshot](https://github.com/subwilven/NewsFeeder/blob/master/screenshots/4.png?raw=true)
+![Screenshot](https://github.com/subwilven/NewsFeeder/blob/master/screenshots/5.png?raw=true)
 
 
 # Libraries Used
