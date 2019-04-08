@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.R;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.util.Constants;
 
 public class ArticleDetailsActivity extends AppCompatActivity {
@@ -37,8 +37,8 @@ public class ArticleDetailsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                break;
+                return true;
         }
-        return true;
+        return false;
     }
 }

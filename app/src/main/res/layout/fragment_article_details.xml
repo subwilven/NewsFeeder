@@ -24,7 +24,7 @@
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:elevation="4dp">
 
             <android.support.design.widget.CollapsingToolbarLayout
@@ -77,81 +77,94 @@
                     android:id="@+id/article_details_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="@{viewModel.articleData.title}"
                     android:textColor="@color/colorTextBlack"
-                    android:textSize="32sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/article_details_published_at"
+                    app:layout_constraintTop_toBottomOf="@+id/article_details_published_at"
+                    tools:text=" sdfasidf kas dfaskdfhwi fsdjhfwfu" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text=" sdfasidf kas dfaskdfhwi fsdjhfwfu" />
+                    app:layout_constraintTop_toBottomOf="@+id/article_details_author" />
 
                 <TextView
                     android:id="@+id/article_details_published_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@+id/article_details_author"
-                    app:layout_constraintTop_toBottomOf="@+id/article_details_author"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="@{ActivityUtils.calculateTimeDiff(viewModel.articleData.publishedAt)}"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="TextView" />
 
                 <TextView
                     android:id="@+id/article_details_content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{viewModel.articleData.content}"
-                    android:textColor="@color/colorTextPrimary"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="@+id/article_details_title"
-                    app:layout_constraintStart_toStartOf="@+id/article_details_published_at"
-                    app:layout_constraintTop_toBottomOf="@+id/article_details_published_at"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@{viewModel.articleData.content}"
+                    android:textColor="@color/colorTextBlack"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/article_details_author"
+                    app:layout_constraintTop_toBottomOf="@+id/view"
                     tools:text="TextView" />
 
                 <TextView
                     android:id="@+id/article_details_author"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+
                     android:text="@{viewModel.articleData.author}"
+                    android:textColor="@color/colorTextPrimary"
+                    app:layout_constraintEnd_toStartOf="@+id/textView2"
                     app:layout_constraintStart_toStartOf="@+id/article_details_title"
                     app:layout_constraintTop_toBottomOf="@+id/article_details_title"
                     tools:text="TextView" />
 
 
-                <Button
+                <TextView
                     android:id="@+id/article_details_btn_read_more"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="@string/read_more"
+                    android:layout_marginBottom="16dp"
                     android:onClick="@{() -> fragment.openArticleUrlInCustomTap()}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/read_more"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/article_details_content"
                     app:layout_constraintTop_toBottomOf="@id/article_details_content" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="3 min read"
+                    app:layout_constraintBottom_toBottomOf="@+id/article_details_author"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/article_details_author" />
 
             </android.support.constraint.ConstraintLayout>
 
         </ScrollView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_read_later"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_watch_later_white_24dp"
-            app:elevation="6dp"
-            app:fabSize="normal"
-            android:onClick="@{() -> fragment.onReadLater()}"
-            app:layout_anchor="@+id/appBar"
-            app:layout_anchorGravity="right|bottom"
-            app:pressedTranslationZ="12dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="4dp" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

@@ -24,4 +24,5 @@
     <string name="sign_in">Sign in</string>
     <string name="please_sign_in_to_enable_read_later_feature">Please sign in to enable read later feature</string>
     <string name="see_all">See All</string>
+    <string name="read_later">Read Later</string>
 </resources>

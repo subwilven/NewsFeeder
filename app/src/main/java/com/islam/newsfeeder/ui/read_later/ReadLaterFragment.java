@@ -11,11 +11,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.islam.newsfeeder.pojo.network.Resource;
-import com.islam.newsfeeder.pojo.ReadLaterArticle;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
+import com.islam.newsfeeder.pojo.ReadLaterArticle;
+import com.islam.newsfeeder.pojo.network.Resource;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.DialogUtils;
@@ -37,12 +37,20 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
+
         ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ReadLaterViewModel.class);
+
         String accessToken = PreferenceUtils.getPocketData(getContext(), KEY_ACCESS_TOKEN);
         mViewModel.init(accessToken);
+
+        bindViews(view);
+    }
+
+    public void bindViews(View view) {
         signInPocketLayout = view.findViewById(R.id.pocket_sign_in);
         signInPocketLayout.findViewById(R.id.go_to_pocket).setOnClickListener(this);
+
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         loadingDialog = DialogUtils.createLoadingDialog(getContext(), R.string.loading, R.string.please_wait);
@@ -108,6 +116,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     /**
      * called when sign in button has been taped
+     *
      * @param view
      */
     @Override
@@ -129,6 +138,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
     /**
      * called when user tap on any article on the list so when open it's url
+     *
      * @param item The Clicked article
      */
     @Override
