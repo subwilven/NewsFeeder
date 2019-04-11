@@ -35,7 +35,7 @@ public class PocketRepository {
     public PocketRepository() {}
 
 
-    public LiveData<String> login() {
+    public LiveData<String> logintoPocketService() {
         MutableLiveData<String> result = new MutableLiveData<>();
 
         NetworkPocketComponent component = DaggerNetworkPocketComponent.create();

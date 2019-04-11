@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.islam.newsfeeder.util.ActivityUtils"/>
         <variable
             name="article"
             type="com.islam.newsfeeder.pojo.ReadLaterArticle"/>
@@ -14,7 +15,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()->ActivityUtils.openCustomTab(context,0xFF333333,article.articleUrl)}">
 
         <ImageView
             android:id="@+id/item_read_later_article_image"

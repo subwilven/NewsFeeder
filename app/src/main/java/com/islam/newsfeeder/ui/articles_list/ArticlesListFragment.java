@@ -14,19 +14,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.islam.newsfeeder.pojo.Article;
-import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
-import com.islam.newsfeeder.ui.article_details.ArticleDetailsActivity;
+import com.islam.newsfeeder.pojo.Article;
+import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterActivity;
-import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 public class ArticlesListFragment extends BaseFragmentList implements SwipeRefreshLayout.OnRefreshListener,
-        CallBacks.AdapterCallBack<Article>, SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     public final static String TAG = "ArticlesListFragment";
     private ArticlesViewModel mViewModel;
@@ -36,13 +34,19 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
     public void onCreateView(View view, Bundle savedInstanceState) {
         ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
         mViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(ArticlesViewModel.class);
-        mAdapter = new ArticlesAdapter(this);
-        recyclerView.setAdapter(mAdapter);
 
+        bindViews();
+
+        setHasOptionsMenu(true);
+    }
+
+    public void bindViews() {
+        mAdapter = new ArticlesAdapter();
+        recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
         mSwipeRefreshLayout.setRefreshing(true);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -110,10 +114,6 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
         mViewModel.reload();
     }
 
-    @Override
-    public void onItemClicked(Article article) {
-        ArticleDetailsActivity.launchActivity(getContext(), article);
-    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {

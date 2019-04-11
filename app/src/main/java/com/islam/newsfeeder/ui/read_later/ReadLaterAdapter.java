@@ -21,13 +21,7 @@ public class ReadLaterAdapter extends RecyclerView.Adapter<ReadLaterAdapter.View
     //this used to set radius to the image
     private final RoundedCornersTransformation cornersTransformation =
             new RoundedCornersTransformation(7, 0);
-    private final CallBacks.AdapterCallBack<ReadLaterArticle> mCallBack;
     private List<ReadLaterArticle> mArticleList;
-
-
-    public ReadLaterAdapter(CallBacks.AdapterCallBack<ReadLaterArticle> callBack) {
-        mCallBack = callBack;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -40,12 +34,6 @@ public class ReadLaterAdapter extends RecyclerView.Adapter<ReadLaterAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         ReadLaterArticle article = mArticleList.get(position);
         holder.bind(article);
-        // if the article has no title show the given title (the title that has been send once the user saved the article)
-//        if (!article.getTitle().isEmpty())
-//            holder.titleTextView.setText(article.getTitle());
-//        else
-//            holder.titleTextView.setText(article.getGivenTitle());
-
     }
 
     @Override
@@ -60,19 +48,13 @@ public class ReadLaterAdapter extends RecyclerView.Adapter<ReadLaterAdapter.View
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         ItemReadLaterArticleBinding binding;
 
         ViewHolder(ItemReadLaterArticleBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            mCallBack.onItemClicked(mArticleList.get(getAdapterPosition()));
         }
 
         void bind(ReadLaterArticle article) {

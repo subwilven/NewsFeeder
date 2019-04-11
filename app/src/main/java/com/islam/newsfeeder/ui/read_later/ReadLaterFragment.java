@@ -28,7 +28,7 @@ import static com.islam.newsfeeder.util.Constants.KEY_ACCESS_TOKEN;
 import static com.islam.newsfeeder.util.Constants.redirectUri;
 
 public class ReadLaterFragment extends BaseFragmentList implements View.OnClickListener,
-        CallBacks.AdapterCallBack<ReadLaterArticle>, SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener {
 
     private ReadLaterViewModel mViewModel;
     private View signInPocketLayout;
@@ -55,7 +55,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
 
         loadingDialog = DialogUtils.createLoadingDialog(getContext(), R.string.loading, R.string.please_wait);
 
-        mAdapter = new ReadLaterAdapter(this);
+        mAdapter = new ReadLaterAdapter();
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(mAdapter);
     }
@@ -78,6 +78,16 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
                     signInPocketLayout.setVisibility(View.VISIBLE);
                 else
                     signInPocketLayout.setVisibility(View.GONE);
+            }
+        });
+
+        mViewModel.getShouldShowLoadingDialog().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean)
+                    loadingDialog.show();
+                else
+                    loadingDialog.dismiss();
             }
         });
     }
@@ -121,7 +131,6 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
      */
     @Override
     public void onClick(View view) {
-        loadingDialog.show();
         mViewModel.loginAtPocket();
         observeReqestToken();
     }
@@ -131,22 +140,10 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
             @Override
             public void onChanged(@Nullable String code) {
                 launchBrowser(code);
-                loadingDialog.dismiss();
             }
         });
     }
 
-    /**
-     * called when user tap on any article on the list so when open it's url
-     *
-     * @param item The Clicked article
-     */
-    @Override
-    public void onItemClicked(ReadLaterArticle item) {
-        ActivityUtils.openCustomTab(getContext(),
-                0xFF333333,
-                item.getArticleUrl());
-    }
 
     @Override
     public void onRefresh() {

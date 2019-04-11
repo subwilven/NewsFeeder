@@ -24,13 +24,11 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
     //this used to set radius to the image
     private final RoundedCornersTransformation cornersTransformation =
             new RoundedCornersTransformation(16, 0);
-    private final CallBacks.AdapterCallBack<Article> mCallBack;
     private NetworkState networkState;
 
 
-    protected ArticlesAdapter(CallBacks.AdapterCallBack<Article> mCallBack) {
+    protected ArticlesAdapter() {
         super(Article.diffUtil);
-        this.mCallBack = mCallBack;
     }
 
 
@@ -89,13 +87,12 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
         return networkState != null && networkState.getStatus() == NetworkState.STATUS_LOADING;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ItemArticleBinding binding;
 
         ViewHolder(ViewDataBinding itemView) {
             super(itemView.getRoot());
             this.binding = (ItemArticleBinding) itemView;
-            itemView.getRoot().setOnClickListener(this);
         }
 
         ViewHolder(View view) {
@@ -106,11 +103,6 @@ public class ArticlesAdapter extends PagedListAdapter<Article, ArticlesAdapter.V
             binding.setArticle(item);
             binding.setRoundedCorner(cornersTransformation);
             binding.executePendingBindings();
-        }
-
-        @Override
-        public void onClick(View view) {
-            mCallBack.onItemClicked(getItem(getAdapterPosition()));
         }
     }
 }

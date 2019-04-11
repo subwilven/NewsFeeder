@@ -46,7 +46,7 @@ dependencies {
     //helper
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation "android.arch.work:work-runtime:1.0.0"
+    implementation "android.arch.work:work-runtime:1.0.1"
 
     //network
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'

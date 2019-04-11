@@ -4,16 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.islam.newsfeeder.util.ActivityUtils"/>
+
+        <import type="com.islam.newsfeeder.ui.article_details.ArticleDetailsActivity" />
+        <import type="com.islam.newsfeeder.util.ActivityUtils" />
+
         <variable
-            name="article" type="com.islam.newsfeeder.pojo.Article" />
+            name="article"
+            type="com.islam.newsfeeder.pojo.Article" />
+
         <variable
-            name="roundedCorner" type="com.islam.newsfeeder.util.other.RoundedCornersTransformation" />
+            name="roundedCorner"
+            type="com.islam.newsfeeder.util.other.RoundedCornersTransformation" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() ->  ArticleDetailsActivity.launchActivity(context, article)}">
 
         <ImageView
             android:id="@+id/item_article_image"
@@ -21,15 +28,15 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             android:scaleType="fitXY"
-            app:imageUrl="@{article.imageUrl}"
             app:height="@{Integer.valueOf(230)}"
-            app:width="@{Integer.valueOf(300)}"
-            app:roundedCorners="@{roundedCorner}"
+            app:imageUrl="@{article.imageUrl}"
             app:layout_constraintDimensionRatio="h,16:9"
             app:layout_constraintEnd_toEndOf="@+id/textView5"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="@+id/item_article_time"
             app:layout_constraintTop_toBottomOf="@+id/item_article_time"
+            app:roundedCorners="@{roundedCorner}"
+            app:width="@{Integer.valueOf(300)}"
             tools:srcCompat="@android:drawable/btn_dialog" />
 
         <TextView
@@ -37,10 +44,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="@{article.title}"
             android:textColor="@color/colorTextPrimary"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@{article.title}"
             app:layout_constraintEnd_toEndOf="@+id/item_article_image"
             app:layout_constraintStart_toStartOf="@+id/item_article_image"
             app:layout_constraintTop_toBottomOf="@+id/item_article_image"
@@ -102,8 +109,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"
             android:text="@{ActivityUtils.calculateTimeDiff(article.publishedAt)}"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Today" />

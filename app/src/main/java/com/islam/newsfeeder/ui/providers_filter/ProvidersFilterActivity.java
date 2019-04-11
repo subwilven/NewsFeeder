@@ -2,6 +2,7 @@ package com.islam.newsfeeder.ui.providers_filter;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.chip.Chip;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.islam.newsfeeder.databinding.ActivityFilterBinding;
 import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
@@ -24,7 +26,7 @@ import com.islam.newsfeeder.util.other.ViewModelFactory;
 import java.util.List;
 
 public class ProvidersFilterActivity extends AppCompatActivity implements
-        CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+        CompoundButton.OnCheckedChangeListener{
 
     private ChipGroup chipGroup;
     private ProvidersFilterViewModel mViewModel;
@@ -34,7 +36,10 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+
+        ActivityFilterBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_filter);
+        binding.setLifecycleOwner(this);
+
         ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProvidersFilterViewModel.class);
         mViewModel.init(PreferenceUtils.getProvidersFromShared(this));
@@ -42,7 +47,8 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         getSupportActionBar().setElevation(0f);
         getSupportActionBar().setTitle(R.string.sources);
         chipGroup = findViewById(R.id.chipGroup);
-        findViewById(R.id.fab_add_provider).setOnClickListener(this);
+
+        binding.setViewModel(mViewModel);
 
         setUpProviders();
     }
@@ -180,8 +186,4 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         mViewModel.updateProvidersStatus(index, b);
     }
 
-    @Override
-    public void onClick(View view) {
-        mViewModel.showProvidersList();
-    }
 }

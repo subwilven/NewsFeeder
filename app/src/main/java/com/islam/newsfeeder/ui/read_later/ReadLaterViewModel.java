@@ -1,12 +1,15 @@
 package com.islam.newsfeeder.ui.read_later;
 
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.islam.newsfeeder.pojo.network.Resource;
 import com.islam.newsfeeder.pojo.ReadLaterArticle;
 import com.islam.newsfeeder.data.pocket.PocketRepository;
+import com.islam.newsfeeder.util.other.SingleLiveEvent;
 
 import java.util.List;
 
@@ -24,13 +27,26 @@ public class ReadLaterViewModel extends ViewModel {
 
     private LiveData<Resource<List<ReadLaterArticle>>> articlesList;
 
+    private SingleLiveEvent<Boolean> shouldShowLoadingDialog = new SingleLiveEvent<>();
+
     public ReadLaterViewModel(PocketRepository mArticleRepository) {
         mRepository = mArticleRepository;
     }
 
 
     public void loginAtPocket() {
-        onRequestTokenReceived = mRepository.login();
+        //show loading dialog
+        shouldShowLoadingDialog.setValue(true);
+        onRequestTokenReceived = mRepository.logintoPocketService();
+
+        //when data is fetched dismiss loading dialog
+        onRequestTokenReceived = Transformations.map(onRequestTokenReceived, new Function<String, String>() {
+            @Override
+            public String apply(String input) {
+                shouldShowLoadingDialog.setValue(false);
+                return input;
+            }
+        });
     }
 
     public void init(String accessToken) {
@@ -70,6 +86,11 @@ public class ReadLaterViewModel extends ViewModel {
     public void setShouldShowPocketSignInLayout(Boolean b) {
         shouldShowPocketSignInLayout.setValue(b);
     }
+
+    public LiveData<Boolean> getShouldShowLoadingDialog() {
+        return shouldShowLoadingDialog;
+    }
+
 
     public LiveData<Boolean> getOnAccessTokenReceived() {
         return onAccessTokenReceived;
