@@ -102,11 +102,11 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
     }
 
     @Override
-    public void onStop() {
+    public void onDestroy() {
         //remove the listener
         PreferenceUtils.getProviderSharedPreference(getContext())
                 .unregisterOnSharedPreferenceChangeListener(this);
-        super.onStop();
+        super.onDestroy();
     }
 
     @Override
@@ -117,6 +117,7 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        mSwipeRefreshLayout.setRefreshing(true);
         mViewModel.reload();
     }
 }
