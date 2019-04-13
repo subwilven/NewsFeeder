@@ -38,7 +38,7 @@ public class PocketRepository {
     public LiveData<String> logintoPocketService() {
         MutableLiveData<String> result = new MutableLiveData<>();
 
-        NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+        NetworkPocketComponent component = MyApplication.getInstance().getNetworkPocketComponent();
         PocketApi pocketApi = component.getPocketApi();
 
         Call<PocketResponse.RequestTokenResponse> connection = pocketApi.requestToken(
@@ -67,7 +67,7 @@ public class PocketRepository {
 
         String requestToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_REQUEST_TOKEN);
 
-        NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+        NetworkPocketComponent component = MyApplication.getInstance().getNetworkPocketComponent();
         PocketApi pocketApi = component.getPocketApi();
 
         Call<PocketResponse.AccessTokenResponse> token
@@ -102,7 +102,7 @@ public class PocketRepository {
 
         String accessToken = PreferenceUtils.getPocketData(context, KEY_ACCESS_TOKEN);
 
-        NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+        NetworkPocketComponent component = MyApplication.getInstance().getNetworkPocketComponent();
         PocketApi pocketApi = component.getPocketApi();
 
         Call<PocketResponse.AddArticleResponse> token = pocketApi.
@@ -138,7 +138,7 @@ public class PocketRepository {
 
             String accessToken = PreferenceUtils.getPocketData(MyApplication.getInstance().getApplicationContext(), KEY_ACCESS_TOKEN);
 
-            NetworkPocketComponent component = DaggerNetworkPocketComponent.create();
+            NetworkPocketComponent component = MyApplication.getInstance().getNetworkPocketComponent();
             PocketApi pocketApi = component.getPocketApi();
 
             Call<PocketResponse.SavedArticlesResponse> token = pocketApi.getReadLaterArticles(BuildConfig.KEY_POCKET_CONSUMER,

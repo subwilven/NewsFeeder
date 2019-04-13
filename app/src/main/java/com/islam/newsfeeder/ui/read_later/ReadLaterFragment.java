@@ -11,13 +11,11 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
-import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.pojo.ReadLaterArticle;
 import com.islam.newsfeeder.pojo.network.Resource;
-import com.islam.newsfeeder.util.ActivityUtils;
-import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.DialogUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
 import com.islam.newsfeeder.util.other.ViewModelFactory;
@@ -38,7 +36,7 @@ public class ReadLaterFragment extends BaseFragmentList implements View.OnClickL
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
 
-        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        ViewModelFactory viewModelFactory = MyApplication.getInstance().getRepositoryComponent().getViewModelFactory();
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ReadLaterViewModel.class);
 
         String accessToken = PreferenceUtils.getPocketData(getContext(), KEY_ACCESS_TOKEN);

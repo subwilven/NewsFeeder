@@ -37,7 +37,7 @@ public class ArticleService {
 
     public void fetchArticles(int pageNumber, CallBacks.NetworkCallBack callBack) {
 
-        NetworkArticleComponent component = DaggerNetworkArticleComponent.create();
+        NetworkArticleComponent component = MyApplication.getInstance().getNetworkArticleComponent();
         ArticleApi articleApi = component.getArticleApi();
 
         List<Provider> providers = PreferenceUtils.getProvidersFromShared(MyApplication.getInstance().getApplicationContext());

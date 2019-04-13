@@ -3,9 +3,11 @@ package com.islam.newsfeeder.services;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.islam.newsfeeder.pojo.Article;
+import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.dagger.repository.DaggerDatabaseDaoComponent;
+import com.islam.newsfeeder.data.articles.ArticleDao;
 import com.islam.newsfeeder.data.articles.ArticleService;
+import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.util.CallBacks;
 
 import java.util.List;
@@ -30,8 +32,9 @@ public class UpdateDatabaseWorker extends Worker {
                 Executors.newFixedThreadPool(1).execute(new Runnable() {
                     @Override
                     public void run() {
-                        DaggerDatabaseDaoComponent.create().provideArticleDao().clearAllData();
-                        DaggerDatabaseDaoComponent.create().provideArticleDao().insert(response);
+                        ArticleDao articleDao = MyApplication.getInstance().getDatabaseDaoComponent().provideArticleDao();
+                        articleDao.clearAllData();
+                        articleDao.insert(response);
                     }
                 });
             }

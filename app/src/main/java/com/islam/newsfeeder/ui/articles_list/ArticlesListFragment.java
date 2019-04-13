@@ -14,9 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.base.BaseFragmentList;
-import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.pojo.network.NetworkState;
 import com.islam.newsfeeder.ui.providers_filter.ProvidersFilterActivity;
@@ -32,7 +32,7 @@ public class ArticlesListFragment extends BaseFragmentList implements SwipeRefre
 
     @Override
     public void onCreateView(View view, Bundle savedInstanceState) {
-        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        ViewModelFactory viewModelFactory = MyApplication.getInstance().getRepositoryComponent().getViewModelFactory();
         mViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(ArticlesViewModel.class);
 
         bindViews();

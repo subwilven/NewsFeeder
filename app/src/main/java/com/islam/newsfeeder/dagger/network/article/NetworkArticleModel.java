@@ -1,5 +1,7 @@
 package com.islam.newsfeeder.dagger.network.article;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.islam.newsfeeder.data.articles.ArticleApi;
 import com.islam.newsfeeder.util.Constants;
@@ -18,6 +20,9 @@ public abstract class NetworkArticleModel {
     @Provides
     @Singleton
     static Retrofit provideRetrofitForNewsApis(Gson gson, OkHttpClient okHttpClient) {
+        Log.i("pocket","new retrofit");
+        Log.i("pocket","Gson : "+gson.hashCode());
+        Log.i("pocket","okHttpClient : "+okHttpClient.hashCode());
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(Constants.URL_NEWS_API)

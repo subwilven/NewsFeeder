@@ -21,8 +21,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.R;
-import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.databinding.FragmentArticleDetailsBinding;
 import com.islam.newsfeeder.pojo.Article;
 import com.islam.newsfeeder.ui.MainActivity;
@@ -87,7 +87,7 @@ public class ArticleDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_article_details, container, false);
 
         //init view model
-        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        ViewModelFactory viewModelFactory = MyApplication.getInstance().getRepositoryComponent().getViewModelFactory();
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ArticlesDetailsViewModel.class);
         mViewModel.init((Article) getArguments().getSerializable(BUNDLE_ARTICLE));
 

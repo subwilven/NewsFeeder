@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.islam.newsfeeder.MyApplication;
 import com.islam.newsfeeder.databinding.ActivityFilterBinding;
 import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.R;
-import com.islam.newsfeeder.dagger.view_model.DaggerViewModelFactoryComponent;
 import com.islam.newsfeeder.util.ActivityUtils;
 import com.islam.newsfeeder.util.DialogUtils;
 import com.islam.newsfeeder.util.PreferenceUtils;
@@ -40,7 +40,7 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
         ActivityFilterBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_filter);
         binding.setLifecycleOwner(this);
 
-        ViewModelFactory viewModelFactory = DaggerViewModelFactoryComponent.create().getViewModelFactory();
+        ViewModelFactory viewModelFactory = MyApplication.getInstance().getRepositoryComponent().getViewModelFactory();
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ProvidersFilterViewModel.class);
         mViewModel.init(PreferenceUtils.getProvidersFromShared(this));
 

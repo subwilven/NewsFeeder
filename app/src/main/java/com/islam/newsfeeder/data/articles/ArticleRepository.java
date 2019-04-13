@@ -62,7 +62,7 @@ public class ArticleRepository {
             callBack.onFailed(Constants.ERROR_NO_CONNECTION);
         }
 
-        NetworkArticleComponent component = DaggerNetworkArticleComponent.create();
+        NetworkArticleComponent component = MyApplication.getInstance().getNetworkArticleComponent();
         ArticleApi articleApi = component.getArticleApi();
 
         Call<ProvidersResponse> connection = articleApi.getProviders(
