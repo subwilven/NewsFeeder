@@ -25,7 +25,6 @@ public abstract class RepositoryModel {
     @Singleton
     @Provides
     static PocketRepository providePocketRepository() {
-        Log.i("pocket","new one");
         return new PocketRepository();
     }
 

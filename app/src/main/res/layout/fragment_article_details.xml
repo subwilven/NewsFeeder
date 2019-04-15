@@ -35,6 +35,7 @@
                 android:fitsSystemWindows="true"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleTextAppearance="@style/TransparentText"
+                app:collapsedTitleTextAppearance="@style/WhiteText"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
@@ -55,6 +56,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:alpha="1.0"
                     android:elevation="4dp"
+                    app:titleTextColor="@android:color/white"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
