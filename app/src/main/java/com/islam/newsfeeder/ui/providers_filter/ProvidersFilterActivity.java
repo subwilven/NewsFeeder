@@ -25,13 +25,21 @@ import com.islam.newsfeeder.util.other.ViewModelFactory;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class ProvidersFilterActivity extends AppCompatActivity implements
-        CompoundButton.OnCheckedChangeListener{
+        CompoundButton.OnCheckedChangeListener {
 
     private ChipGroup chipGroup;
     private ProvidersFilterViewModel mViewModel;
     private MaterialDialog loadingDialog;
     private MaterialDialog providersListDialog;
+
+
+    private CompositeDisposable mSubscription = new CompositeDisposable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,73 +58,74 @@ public class ProvidersFilterActivity extends AppCompatActivity implements
 
         binding.setViewModel(mViewModel);
 
-        setUpProviders();
     }
 
-    public void setUpProviders() {
-        mViewModel.getProvidersList().observe(this, new Observer<List<Provider>>() {
-            @Override
-            public void onChanged(@Nullable List<Provider> providers) {
-                initChipsProviders(providers);
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpObsevers();
+    }
 
-        mViewModel.getOnSaveClicked().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                //save the new list of providers
-                PreferenceUtils.saveProvidersInShared(ProvidersFilterActivity.this,
-                        mViewModel.getProvidersList().getValue());
-                //finish the filter activity
-                finish();
-            }
-        });
+    @Override
+    protected void onPause() {
+        mSubscription.clear();
+        super.onPause();
+    }
 
-        mViewModel.getShowToastAtLeastOnProvider().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                ActivityUtils.showToast(ProvidersFilterActivity.this,R.string.should_be_at_least_one_checked_provider);
-            }
-        });
+    public void setUpObsevers() {
 
-        mViewModel.getShowLoadingDialog().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if (aBoolean)
-                    showLoadingDialog();
-                else
-                    loadingDialog.dismiss();
-            }
-        });
+        mSubscription.add(mViewModel.getProvidersList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::initChipsProviders));
 
-        mViewModel.getShowProvidersListDialog().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean b) {
-                showProvidersListDialog();
-            }
-        });
 
-        mViewModel.getOnProviderAdded().observe(this, new Observer<Provider>() {
-            @Override
-            public void onChanged(@Nullable Provider provider) {
-                addNewChip(provider, mViewModel.getProvidersList().getValue().size() - 1);
-            }
-        });
+        mSubscription.add(mViewModel.getOnSaveClicked()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(__ -> {
+                    PreferenceUtils.saveProvidersInShared(ProvidersFilterActivity.this,
+                            mViewModel.getProvidersList().getValue());
+                    finish();
+                }));
 
-        mViewModel.getShowToastNoConnection().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                ActivityUtils.showToast(ProvidersFilterActivity.this,R.string.no_network_connection);
-            }
-        });
+
+        mSubscription.add(mViewModel.getShowLoadingDialog()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::showLoadingDialog));
+
+
+        mSubscription.add(mViewModel.getShowProvidersListDialog()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(__ -> showProvidersListDialog()));
+
+
+        mSubscription.add(mViewModel.getOnProviderAdded()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(provider -> addNewChip(provider,
+                        mViewModel.getProvidersListSize() - 1)));
+
+
+        mSubscription.add(mViewModel.getShowToast()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(stringRes ->
+                        ActivityUtils.showToast(ProvidersFilterActivity.this, getString(stringRes))));
     }
 
 
-    private void showLoadingDialog() {
+    private void showLoadingDialog(boolean aBoolean) {
         if (loadingDialog == null)
             loadingDialog =
                     DialogUtils.createLoadingDialog(this, R.string.loading, R.string.please_wait);
-        loadingDialog.show();
+        if (aBoolean) {
+            loadingDialog.show();
+        } else {
+            loadingDialog.dismiss();
+        }
     }
 
     private void showProvidersListDialog() {

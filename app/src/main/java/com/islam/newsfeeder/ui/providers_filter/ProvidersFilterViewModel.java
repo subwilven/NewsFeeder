@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
 import com.islam.newsfeeder.util.CallBacks;
@@ -12,27 +13,29 @@ import com.islam.newsfeeder.util.other.SingleLiveEvent;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
+
 public class ProvidersFilterViewModel extends ViewModel {
 
     private final ArticleRepository mRepository;
 
-    private MutableLiveData<List<Provider>> userProvidersList = new MutableLiveData<>();
+    private BehaviorSubject<List<Provider>> userProvidersList = BehaviorSubject.create();
     // fired whhen user click on save button
-    private SingleLiveEvent<Boolean> onSaveClicked = new SingleLiveEvent<>();
-    //fired when user try to save and there is no any checked provider
-    private SingleLiveEvent<Boolean> showToastAtLeastOnProvider = new SingleLiveEvent<>();
+    private PublishSubject<Boolean> onSaveClicked = PublishSubject.create();
 
-    //fired when user try to do action while no internet connection
-    private SingleLiveEvent<Boolean> showToastNoConnection = new SingleLiveEvent<>();
+    private PublishSubject<Integer> showToast =PublishSubject.create() ;
 
     //fired when user try to add new providers to show loading dialog until the providers list fetched
-    private SingleLiveEvent<Boolean> showLoadingDialog = new SingleLiveEvent<>();
+    private PublishSubject<Boolean> showLoadingDialog = PublishSubject.create();
 
     //fired when user try to add new providers
-    private SingleLiveEvent<Boolean> showProvidersListDialog = new SingleLiveEvent<>();
+    private PublishSubject<Boolean> showProvidersListDialog = PublishSubject.create();
 
     //fired when user choose a new provider from the list
-    private SingleLiveEvent<Provider> onProviderAdded = new SingleLiveEvent<>();
+    private PublishSubject<Provider> onProviderAdded = PublishSubject.create();
 
     //hold all the providers from the server to allow user to add to his providers list
     private List<Provider> allProvidersList;
@@ -42,16 +45,16 @@ public class ProvidersFilterViewModel extends ViewModel {
     }
 
     public void init(List<Provider> providers) {
-        if (userProvidersList.getValue() == null)
-            userProvidersList.setValue(providers);
+        if (userProvidersList.getValue()  == null)
+            userProvidersList.onNext(providers);
     }
 
     public void setOnSaveClicked(boolean b) {
         boolean isThereCheckedProviders = checkIfThereIsAtLeastOneCheckedProvider();
         if (isThereCheckedProviders)
-            onSaveClicked.setValue(b);
+            onSaveClicked.onNext(b);
         else
-            showToastAtLeastOnProvider.setValue(true);
+            showToast.onNext(R.string.should_be_at_least_one_checked_provider);
     }
 
     private boolean checkIfThereIsAtLeastOneCheckedProvider() {
@@ -70,26 +73,26 @@ public class ProvidersFilterViewModel extends ViewModel {
         //to prevent loading the list every time
         if (allProvidersList == null) {
             //show loading dialog
-            showLoadingDialog.setValue(true);
+            showLoadingDialog.onNext(true);
             mRepository.fetchAllProviders(new CallBacks.NetworkCallBack<List<Provider>>() {
                 @Override
                 public void onSuccess(List<Provider> items) {
                     //hide loading dialog and show providers list dialog
-                    showLoadingDialog.setValue(false);
+                    showLoadingDialog.onNext(false);
                     allProvidersList = items;
-                    showProvidersListDialog.setValue(true);
+                    showProvidersListDialog.onNext(true);
 
                 }
 
                 @Override
                 public void onFailed(String error) {
-                    showLoadingDialog.setValue(false);
+                    showLoadingDialog.onNext(false);
                     if (error.equals(Constants.ERROR_NO_CONNECTION))
-                        showToastNoConnection.setValue(true);
+                        showToast.onNext(R.string.no_network_connection);
                 }
             });
         } else {
-            showProvidersListDialog.setValue(true);
+            showProvidersListDialog.onNext(true);
         }
     }
 
@@ -100,7 +103,7 @@ public class ProvidersFilterViewModel extends ViewModel {
         if (userProvidersList.getValue().indexOf(newProvider) == -1) {
             newProvider.setChecked(true);
             userProvidersList.getValue().add(newProvider);
-            onProviderAdded.setValue(newProvider);
+            onProviderAdded.onNext(newProvider);
         }
     }
 
@@ -108,11 +111,11 @@ public class ProvidersFilterViewModel extends ViewModel {
     //-------------------------------------------
     // setters and getters
 
-    public LiveData<Boolean> getShowLoadingDialog() {
+    public Observable<Boolean> getShowLoadingDialog() {
         return showLoadingDialog;
     }
 
-    public LiveData<Boolean> getShowProvidersListDialog() {
+    public Observable<Boolean> getShowProvidersListDialog() {
         return showProvidersListDialog;
     }
 
@@ -120,7 +123,7 @@ public class ProvidersFilterViewModel extends ViewModel {
         return allProvidersList;
     }
 
-    public LiveData<List<Provider>> getProvidersList() {
+    public BehaviorSubject<List<Provider>> getProvidersList() {
         return userProvidersList;
     }
 
@@ -128,19 +131,19 @@ public class ProvidersFilterViewModel extends ViewModel {
         userProvidersList.getValue().get(index).setChecked(b);
     }
 
-    public LiveData<Boolean> getShowToastAtLeastOnProvider() {
-        return showToastAtLeastOnProvider;
-    }
-
-    public LiveData<Boolean> getOnSaveClicked() {
+    public Observable<Boolean> getOnSaveClicked() {
         return onSaveClicked;
     }
 
-    public LiveData<Provider> getOnProviderAdded() {
+    public Observable<Provider> getOnProviderAdded() {
         return onProviderAdded;
     }
 
-    public LiveData<Boolean> getShowToastNoConnection() {
-        return showToastNoConnection;
+    public Observable<Integer> getShowToast() {
+        return showToast;
+    }
+
+    public int getProvidersListSize() {
+      return   userProvidersList.getValue().size();
     }
 }
