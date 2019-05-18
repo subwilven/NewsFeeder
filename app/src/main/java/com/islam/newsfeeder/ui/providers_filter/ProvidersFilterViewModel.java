@@ -7,6 +7,7 @@ import android.arch.lifecycle.ViewModel;
 import com.islam.newsfeeder.R;
 import com.islam.newsfeeder.pojo.Provider;
 import com.islam.newsfeeder.data.articles.ArticleRepository;
+import com.islam.newsfeeder.pojo.network.ProvidersResponse;
 import com.islam.newsfeeder.util.CallBacks;
 import com.islam.newsfeeder.util.Constants;
 import com.islam.newsfeeder.util.other.SingleLiveEvent;
@@ -14,7 +15,10 @@ import com.islam.newsfeeder.util.other.SingleLiveEvent;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 
@@ -26,7 +30,7 @@ public class ProvidersFilterViewModel extends ViewModel {
     // fired whhen user click on save button
     private PublishSubject<Boolean> onSaveClicked = PublishSubject.create();
 
-    private PublishSubject<Integer> showToast =PublishSubject.create() ;
+    private PublishSubject<Integer> showToast = PublishSubject.create();
 
     //fired when user try to add new providers to show loading dialog until the providers list fetched
     private PublishSubject<Boolean> showLoadingDialog = PublishSubject.create();
@@ -45,7 +49,7 @@ public class ProvidersFilterViewModel extends ViewModel {
     }
 
     public void init(List<Provider> providers) {
-        if (userProvidersList.getValue()  == null)
+        if (userProvidersList.getValue() == null)
             userProvidersList.onNext(providers);
     }
 
@@ -72,28 +76,37 @@ public class ProvidersFilterViewModel extends ViewModel {
     public void showProvidersList() {
         //to prevent loading the list every time
         if (allProvidersList == null) {
-            //show loading dialog
-            showLoadingDialog.onNext(true);
-            mRepository.fetchAllProviders(new CallBacks.NetworkCallBack<List<Provider>>() {
-                @Override
-                public void onSuccess(List<Provider> items) {
-                    //hide loading dialog and show providers list dialog
-                    showLoadingDialog.onNext(false);
-                    allProvidersList = items;
-                    showProvidersListDialog.onNext(true);
-
-                }
-
-                @Override
-                public void onFailed(String error) {
-                    showLoadingDialog.onNext(false);
-                    if (error.equals(Constants.ERROR_NO_CONNECTION))
-                        showToast.onNext(R.string.no_network_connection);
-                }
-            });
+            fetchAllProviders();
         } else {
             showProvidersListDialog.onNext(true);
         }
+    }
+
+    public void fetchAllProviders(){
+        mRepository.fetchAllProviders()
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(__-> showLoadingDialog.onNext(true))
+                .subscribe(new SingleObserver<ProvidersResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(ProvidersResponse response) {
+                        //hide loading dialog and show providers list dialog
+                        showLoadingDialog.onNext(false);
+                        allProvidersList = response.getData();
+                        showProvidersListDialog.onNext(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+//                    showLoadingDialog.onNext(false);
+//                    if (error.equals(Constants.ERROR_NO_CONNECTION))
+//                        showToast.onNext(R.string.no_network_connection);
+                    }
+                });
     }
 
 
@@ -144,6 +157,6 @@ public class ProvidersFilterViewModel extends ViewModel {
     }
 
     public int getProvidersListSize() {
-      return   userProvidersList.getValue().size();
+        return userProvidersList.getValue().size();
     }
 }

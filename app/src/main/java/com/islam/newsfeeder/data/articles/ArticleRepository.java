@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,31 +57,16 @@ public class ArticleRepository {
 
     }
 
-    public void fetchAllProviders(CallBacks.NetworkCallBack<List<Provider>> callBack) {
+    public Single<ProvidersResponse> fetchAllProviders() {
 
-        if (!NetworkUtils.haveNetworkConnection(MyApplication.getInstance().getApplicationContext())) {
-            callBack.onFailed(Constants.ERROR_NO_CONNECTION);
-        }
+//        if (!NetworkUtils.haveNetworkConnection(MyApplication.getInstance().getApplicationContext())) {
+//            callBack.onFailed(Constants.ERROR_NO_CONNECTION);
+//        }
 
         NetworkArticleComponent component = MyApplication.getInstance().getNetworkArticleComponent();
         ArticleApi articleApi = component.getArticleApi();
 
-        Call<ProvidersResponse> connection = articleApi.getProviders(
-                "sources",
-                BuildConfig.NEWS_API_KEY);
-
-        connection.enqueue(new Callback<ProvidersResponse>() {
-            @Override
-            public void onResponse(Call<ProvidersResponse> call, Response<ProvidersResponse> response) {
-                callBack.onSuccess(response.body().getData());
-            }
-
-            @Override
-            public void onFailure(Call<ProvidersResponse> call, Throwable t) {
-
-            }
-
-        });
+        return articleApi.getProviders("sources", BuildConfig.NEWS_API_KEY);
     }
 
     public LiveData<NetworkState> getNetworkState() {

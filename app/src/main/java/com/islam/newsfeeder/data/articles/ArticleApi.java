@@ -3,6 +3,7 @@ package com.islam.newsfeeder.data.articles;
 import com.islam.newsfeeder.pojo.network.ArticleResponse;
 import com.islam.newsfeeder.pojo.network.ProvidersResponse;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -19,7 +20,7 @@ public interface ArticleApi {
             @Query("apiKey") String key);
 
     @GET("{path}")
-    Call<ProvidersResponse> getProviders(
+    Single<ProvidersResponse> getProviders(
             @Path(value = "path") String path,
             @Query("apiKey") String key);
 }
